@@ -66,6 +66,6 @@ The only other equipment required to run this system is any phone, tablet, lapto
    - dummy test 'race' with a few competitor volunteers (Apr 2021)
    - use demo prototype in parallel with existing systems to gain usage feedback (whenever first race is!)
    - iterate
-   - full implementation (May 2021)
+   - full implementation
    - roll out (10+ stations)
    
