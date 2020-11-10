@@ -63,6 +63,7 @@ The only other equipment required to run this system is any phone, tablet, lapto
    - acquire prototype hardware (done)
    - build proof of concept prototype (1 station, in progress, complete by Jan 2021)
    - build demo prototype (3 stations, registration, start, finish, Mar 2021)
+   - dummy test 'race' with a few competitor volunteers (Apr 2021)
    - use demo prototype in parallel with existing systems to gain usage feedback (whenever first race is!)
    - iterate
    - full implementation (May 2021)
