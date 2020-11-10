@@ -43,7 +43,7 @@ The glue for all this is a low cost compute module, the Raspberry Pi Zero W. Tha
  - Mounting poles and/or tripods, cost TBD, allow £10
  - Other odds and ends, cables, connectors, et al, allow £10
  
- This brings the total hardware cost to around £230 per unit. There is scope for cost saving, mostly by replacing the £50 Fipy with something cheaper (but requiring more software). The cost saving area is to use smaller UHF antennas but that also reduces the reading range. Or cheaper still, use a Yagi array (i.e a TV aerial) but they have the disadvantage of being linearly polarised so the competitors would have to make the tags were worn the "right way up".
+ This brings the total hardware cost to around £230 per unit. There is scope for cost saving, mostly by replacing the £50 Fipy with something cheaper (but requiring more software). Another cost saving area is to use smaller UHF antennas but that also reduces the reading range. Or cheaper still, use a Yagi array (i.e a TV aerial) but they have the disadvantage of being linearly polarised so the competitors would have to make the tags were worn the "right way up".
  
  ## Major software components
  
