@@ -14,7 +14,7 @@ Low cost comes from using readily available industry standard hardware modules t
 ## The vision
 To produce a stand-alone device that can be used for all, or any, of:
  - competitor registration (pre-entry or on-the-day)
- - start confirmation
+ - start confirmation (the readers can cope with mass starts)
  - check point visit confirmation (CP self configures via GPS)
  - finish registration
  - lost/late competitor alerts
