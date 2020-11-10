@@ -26,7 +26,7 @@ And all of this with real-time feedback from CPs on the course to the race organ
 ## The technology
 The main component is the use of UHF RFID readers/tags. These are the type of RFID systems typically used for auto entry car parks and road tolls. They have the advantage of very low cost tags (10p each if bought in bulk) and long range reading (3 metres or more) which means competitors do not have to stop at CPs. As long as they get within range of the reader they'll be recorded. The disadvantage of UHF is the higher cost of the readers (compared with for e.g. NFC, as found in modern smartphones), but if carefully sourced (i.e. China!) the cost is not prohibitive. Another disadvantage is the comparatively high power requirement (you don't get long range without broadcasting a lot of power!), but intelligent power management can mitigate this.
 
-On top of the UHF tag readers is the use of -all- the modern comms capbilities to ensure a connection back to HQ, and/or the internet, can always be achieved. The comms include: Wifi, Bluetooth, LTE (mobiles) and LoRa (long range low power radio).
+On top of the UHF tag readers is the use of *all* the modern comms capbilities to ensure a connection back to HQ, and/or the internet, can always be achieved. The comms include: Wifi, Bluetooth, LTE (mobiles) and LoRa (long range low power radio).
 
 And finally, to allow the device to self configure from its location, a GPS module so it knows where it is and can behave accordingly.
 
