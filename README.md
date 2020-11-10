@@ -30,7 +30,9 @@ On top of the UHF tag readers is the use of *all* the modern comms capbilities t
 
 And finally, to allow the device to self configure from its location, a GPS module so it knows where it is and can behave accordingly.
 
-The glue for all this is a low cost compute module, the Raspberry Pi Zero W. That will provide the interface to everything via an embeded web server that can be accessed through any web browser on any device via WiFi. So the only other equipment required to run this system is any phone, tablet, laptop, desktop PC with WiFi. Where the internet is visible, this will also provide access to that. In particular, there will be no software download/install required, it all comes embedded in the device. That will auto update itself everytime it can see the internet.
+The glue for all this is a low cost compute module, the Raspberry Pi Zero W. That will provide the interface to everything via an embeded web server that can be accessed through any web browser on any device via WiFi.
+
+The only other equipment required to run this system is any phone, tablet, laptop, desktop PC with WiFi. Where the internet is visible, this will also provide access to that. In particular, there will be no software download/install required, it all comes embedded in the device. That will auto update itself everytime it can see the internet.
 
 ## Typical hardware components and costings
 
