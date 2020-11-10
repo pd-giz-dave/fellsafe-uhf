@@ -20,6 +20,7 @@ To produce a stand-alone device that can be used for all, or any, of:
  - lost/late competitor alerts
  - automatic results publication
  - self powered for at least 24 hours
+ 
 And all of this with real-time feedback from CPs on the course to the race organisers HQ (or anywhere else), even in mountainous terrain with no mobile phone coverage.
  
 ## The technology
