@@ -43,7 +43,7 @@ The only other equipment required to run this system is any phone, tablet, lapto
  - RTC (rea-time clock), about £5 (PiHut mini RTC module), provides date/time even when powered off
  - GPS, about £12 (TeOhk GT-U7 on Amazon)
  - Battery, 12v 5Ah+, lead-acid, about £20, lead-acid is far cheaper than LiPo (Lithium Polymer) and the extra bulk/weight is not an issue for the intended usage. 
- -Power regulators, the electronics will require 5v and 3.3v in various places (the main 12v is for the UHF readers) so regalators will be required, they are "ten-a-penny", so noise
+ - Power regulators, the electronics will require 5v and 3.3v in various places (the main 12v is for the UHF readers) so regalators will be required, they are "ten-a-penny", so noise
  - Case, a case to house all the electronics tidly can be 3D printed, allow £20, or just use a lunch box!
  - Mounting poles and/or tripods, cost TBD, allow £10
  - Other odds and ends, cables, connectors, et al, allow £10
