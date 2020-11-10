@@ -31,53 +31,33 @@ The glue for all this is a low cost compute module, the Raspberry Pi Zero W. Tha
 
 ## Typical hardware components and costings
 
- -UHF readers (with circulary polarised antennas), there are lots on alibaba.com (the Chinese equivalent of Amazon), ranging from $68 (US) upwards, plus shipping/tax, allow £80 per reader
- 
- -Pi Zero W, about £12, provides the web server software platform and the 'glue' and the WiFI AP (Access Point) for external devices
- 
- -SD card, 32GB, about £10 with NOOBS pre-installed from PiHut
- 
- -Pycom Fipy, about £50, provides the comms, WiFi (for internet access), Bluetooth, LTE, LoRa (provides the Pymesh radio network)
- 
- -RTC (rea-time clock), about £5 (PiHut mini RTC module), provides date/time even when powered off
- 
- -GPS, about £12 (TeOhk GT-U7 on Amazon)
- 
- -Battery, 12v 5Ah+, lead-acid, about £20, lead-acid is far cheaper than LiPo (Lithium Polymer) and the extra bulk/weight is not an issue for the intended usage. 
- 
+ - UHF readers (with circulary polarised antennas), there are lots on alibaba.com (the Chinese equivalent of Amazon), ranging from $68 (US) upwards, plus shipping/tax, allow £80 per reader
+ - Pi Zero W, about £12, provides the web server software platform and the 'glue' and the WiFI AP (Access Point) for external devices
+ - SD card, 32GB, about £10 with NOOBS pre-installed from PiHut
+ - Pycom Fipy, about £50, provides the comms, WiFi (for internet access), Bluetooth, LTE, LoRa (provides the Pymesh radio network)
+ - RTC (rea-time clock), about £5 (PiHut mini RTC module), provides date/time even when powered off
+ - GPS, about £12 (TeOhk GT-U7 on Amazon)
+ - Battery, 12v 5Ah+, lead-acid, about £20, lead-acid is far cheaper than LiPo (Lithium Polymer) and the extra bulk/weight is not an issue for the intended usage. 
  -Power regulators, the electronics will require 5v and 3.3v in various places (the main 12v is for the UHF readers) so regalators will be required, they are "ten-a-penny", so noise
- 
- -Case, a case to house all the electronics tidly can be 3D printed, allow £20, or just use a lunch box!
- 
- -Mounting poles and/or tripods, cost TBD, allow £10
- 
- -Other odds and ends, cables, connectors, et al, allow £10
- 
+ - Case, a case to house all the electronics tidly can be 3D printed, allow £20, or just use a lunch box!
+ - Mounting poles and/or tripods, cost TBD, allow £10
+ - Other odds and ends, cables, connectors, et al, allow £10
  This brings the total hardware cost to around £230 per unit. There is scope for cost saving, mostly by replacing the £50 Fipy with something cheaper (but requiring more software). The cost saving area is to use smaller UHF antennas but that also reduces the reading range. Or cheaper still, use a Yagi array (i.e a TV aerial) but they have the disadvantage of being linearly polarised so the competitors would have to make the tags were worn the "right way up".
  
  ## Major software components
  
-  -Pymesh, provides a resilent comms network over the LoRa radios embedded in the FiPy units
-  
-  -Diet Pi, the Linux based operating system in the PiZero W compute devices
-  
-  -Webserver, loads available for the Pi
-  
-  -Glue software, part of this project
-  
-  -Web app, the application users of the system interact with, part of this project
+  - Pymesh, provides a resilent comms network over the LoRa radios embedded in the FiPy units
+  - Diet Pi, the Linux based operating system used in the PiZero W compute devices
+  - Webserver, loads available for the Pi
+  - Glue software, part of this project
+  - Web app, the application users of the system interact with, part of this project
   
   ## Road map (this is all vapourware as of 10/11/20)
   
-   -acquire prototype hardware (done)
-   
-   -build proof of concept prototype (1 station, in progress)
-   
-   -build demo prototype (3 stations, registration, start, finish)
-   
-   -use demo prototype in parallel with existing systems to gain usage feedback
-   
-   -iterate
-   
-   -roll out (10+ stations)
+   - acquire prototype hardware (done)
+   - build proof of concept prototype (1 station, in progress)
+   - build demo prototype (3 stations, registration, start, finish)
+   - use demo prototype in parallel with existing systems to gain usage feedback
+   - iterate
+   - roll out (10+ stations)
    
