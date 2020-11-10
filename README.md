@@ -61,9 +61,10 @@ The only other equipment required to run this system is any phone, tablet, lapto
   ## Road map (this is all vapourware as of 10/11/20)
   
    - acquire prototype hardware (done)
-   - build proof of concept prototype (1 station, in progress)
-   - build demo prototype (3 stations, registration, start, finish)
-   - use demo prototype in parallel with existing systems to gain usage feedback
+   - build proof of concept prototype (1 station, in progress, complete by Jan 2021)
+   - build demo prototype (3 stations, registration, start, finish, Mar 2021)
+   - use demo prototype in parallel with existing systems to gain usage feedback (whenever first race is!)
    - iterate
+   - full implementation (May 2021)
    - roll out (10+ stations)
    
