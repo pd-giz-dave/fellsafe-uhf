@@ -38,7 +38,7 @@ The only other equipment required to run this system is any phone, tablet, lapto
 
 ## Typical hardware components and costings
 
- - UHF readers (with circulary polarised antennas), there are lots on alibaba.com (the Chinese equivalent of Amazon), ranging from $68 (US) upwards, plus shipping/tax, allow £80 per reader
+ - UHF readers (with circulary polarised antennas), there are lots on alibaba.com (the Chinese equivalent of Amazon), ranging from $68 (US) upwards, plus shipping/tax, allow £80 per reader (e.g. ACM-812A on alibaba.com)
  - Pi Zero W, £10 from PiHut, provides the web server software platform and the 'glue' and the WiFI AP (Access Point) for external devices
  - SD card, 32GB, about £7
  - Pycom Fipy, about £50, provides the comms, WiFi (for internet access), LTE (NB-IoT access), LoRa (provides the Pymesh radio network) (11/11/20 cannot beat this price with separate Pi modules)
