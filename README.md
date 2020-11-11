@@ -40,7 +40,7 @@ The only other equipment required to run this system is any phone, tablet, lapto
 
  - UHF readers (with circulary polarised antennas), there are lots on alibaba.com (the Chinese equivalent of Amazon), ranging from $68 (US) upwards, plus shipping/tax, allow £80 per reader
  - Pi Zero W, £10 from PiHut, provides the web server software platform and the 'glue' and the WiFI AP (Access Point) for external devices
- - SD card, 32GB, about £10 with NOOBS pre-installed from PiHut
+ - SD card, 32GB, about £7
  - Pycom Fipy, about £50, provides the comms, WiFi (for internet access), LTE (NB-IoT access), LoRa (provides the Pymesh radio network) (11/11/20 cannot beat this price with separate Pi modules)
  - RTC (rea-time clock), about £5 (PiHut mini RTC module), provides date/time even when powered off (NB: GPS can supply time but not date)
  - GPS, about £12 (TeOhk GT-U7 on Amazon)
