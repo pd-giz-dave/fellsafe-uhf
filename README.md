@@ -39,19 +39,18 @@ The only other equipment required to run this system is any phone, tablet, lapto
 ## Typical hardware components and costings
 
  - UHF readers (with circulary polarised antennas), there are lots on alibaba.com (the Chinese equivalent of Amazon), ranging from $68 (US) upwards, plus shipping/tax, allow £80 per reader
- - Pi Zero W, about £12, provides the web server software platform and the 'glue' and the WiFI AP (Access Point) for external devices
+ - Pi Zero W, £10 from PiHut, provides the web server software platform and the 'glue' and the WiFI AP (Access Point) for external devices
  - SD card, 32GB, about £10 with NOOBS pre-installed from PiHut
  - Pycom Fipy, about £50, provides the comms, WiFi (for internet access), LTE (NB-IoT access), LoRa (provides the Pymesh radio network) (11/11/20 cannot beat this price with separate Pi modules)
  - RTC (rea-time clock), about £5 (PiHut mini RTC module), provides date/time even when powered off (NB: GPS can supply time but not date)
  - GPS, about £12 (TeOhk GT-U7 on Amazon)
- - Battery, 12v 5Ah+, lead-acid, about £20, lead-acid is far cheaper than LiPo (Lithium Polymer) and the extra bulk/weight is not an issue for the intended usage. 
- - Power regulators, the electronics will require 5v and 3.3v in various places (the main 12v is for the UHF readers) so regalators will be required, they are "ten-a-penny", so noise
+ - Battery, 12v 5Ah+, lead-acid, about £10, e.g. pro-elec PEL01436 12v 7Ah from cpc.farnell.com, 65 x 101 x 151 mm, 2.05 kg
  - Case, a waterproof case to house all the electronics tidly (use an electrical junction box), allow £10
- - Mounting poles and/or tripods, cost TBD, allow £10
+ - Mounting poles and/or tripods, allow £10
  - LTE/WiFi*2/Lora antenna, £20
  - IoT SIM card, 1nce.com £10 for 500MB valid for 10 years
- - PCB (later, initially use a breadboard and wires), e.g. pcbgogo.com $5 for 100mm x 100mm 2 layers
- - Other odds and ends, cables, connectors, et al, allow £10
+ - PCB (later, initially use a breadboard and wires), e.g. pcbgogo.com $5 for 100mm x 100mm x 2 layers, allow £10
+ - Other odds and ends, cables, connectors, power regulators, et al, allow £10
  
  This brings the total hardware cost to around £250 per unit. 
  
