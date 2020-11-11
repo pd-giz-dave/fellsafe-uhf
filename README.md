@@ -43,7 +43,7 @@ The only other equipment required to run this system is any phone, tablet, lapto
  - SD card, 32GB, about £7
  - Pycom Fipy, about £50, provides the comms, WiFi (for internet access), LTE (NB-IoT access), LoRa (provides the Pymesh radio network)
  - RTC (rea-time clock), about £5 (PiHut mini RTC module), provides date/time even when powered off (NB: GPS can supply time but not date)
- - GPS, about £12 (TeOhk GT-U7 on Amazon)
+ - GPS, about £12 (TeOhk GT-U7 on Amazon), or Stemedu USB GPS Module Vk-162 on Amazon £20 (waterproof)
  - Battery, 12v 5Ah+, lead-acid, about £10, e.g. pro-elec PEL01436 12v 7Ah from cpc.farnell.com, 65 x 101 x 151 mm, 2.05 kg
  - Case, a waterproof case to house all the electronics tidly (use an electrical junction box), allow £10
  - Mounting poles and/or tripods, allow £10
