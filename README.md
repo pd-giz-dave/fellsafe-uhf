@@ -57,7 +57,7 @@ The only other equipment required to run this system is any phone, tablet, lapto
  ## Major software components
  
   - Pymesh, provides a resilent comms network over the LoRa radios embedded in the FiPy units
-  - Diet Pi, the Linux based operating system used in the PiZero W compute devices
+  - Diet Pi, the Linux based operating system used in the Pi Zero W compute devices
   - Webserver, loads available for the Pi
   - Glue software, part of this project
   - Web app, the application users of the system interact with, part of this project
