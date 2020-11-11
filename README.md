@@ -46,14 +46,14 @@ The only other equipment required to run this system is any phone, tablet, lapto
  - GPS, about £12 (TeOhk GT-U7 on Amazon)
  - Battery, 12v 5Ah+, lead-acid, about £20, lead-acid is far cheaper than LiPo (Lithium Polymer) and the extra bulk/weight is not an issue for the intended usage. 
  - Power regulators, the electronics will require 5v and 3.3v in various places (the main 12v is for the UHF readers) so regalators will be required, they are "ten-a-penny", so noise
- - Case, a case to house all the electronics tidly can be 3D printed, allow £20, or just use a lunch box!
+ - Case, a waterproof case to house all the electronics tidly (use an electrical junction box), allow £10
  - Mounting poles and/or tripods, cost TBD, allow £10
  - LTE/WiFi*2/Lora antenna, £20
  - IoT SIM card, 1nce.com £10 for 500MB valid for 10 years
  - PCB (later, initially use a breadboard and wires), e.g. pcbgogo.com $5 for 100mm x 100mm 2 layers
  - Other odds and ends, cables, connectors, et al, allow £10
  
- This brings the total hardware cost to around £250 per unit. There is scope for cost saving, mostly by replacing the £50 Fipy with something cheaper (but requiring more software). Another cost saving area is to use smaller UHF antennas but that also reduces the reading range. Or cheaper still, use a Yagi array (i.e a TV aerial) but they have the disadvantage of being linearly polarised so the competitors would have to make sure the tags were worn the "right way up" (with circular it doesn't matter).
+ This brings the total hardware cost to around £250 per unit. 
  
  ## Major software components
  
