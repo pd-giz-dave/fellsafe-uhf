@@ -53,6 +53,8 @@ The only other equipment required to run this system is any phone, tablet, lapto
  - Other odds and ends, cables, connectors, power regulators, et al, allow £10
  
  This brings the total hardware cost to around £250 per unit. 
+
+ ![Hardware Config](/hardware-config.drawio.png)
  
  ## Major software components
  
