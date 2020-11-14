@@ -26,9 +26,9 @@ And all of this with real-time feedback from CPs on the course to the race organ
 In the context of the 2020 Covid-19 pandemic there is scope to use this system while maintaining social distancing. By pre-registering and pre-placig the readers, races could be run by individuals and results collated automatically. All the competitor would need to carry would be the tag which could be posted to them. Going further, the tag could completely identify the individual (like 'dibbers' but far cheaper) so not even registration (pre or otherwise) would be required. Rather like Park Runs, just turn up and go.
  
 ## The technology
-The main component is the use of UHF RFID readers/tags. These are the type of RFID systems typically used for auto entry car parks and road tolls. They have the advantage of very low cost tags (10p each if bought in bulk) and long range reading (3 metres or more) which means competitors do not have to stop at CPs. As long as they get within range of the reader they'll be recorded. The disadvantage of UHF is the higher cost of the readers (compared with for e.g. NFC, as found in modern smartphones), but if carefully sourced (i.e. China!) the cost is not prohibitive. Another disadvantage is the comparatively high power requirement (you don't get long range without broadcasting a lot of power!), but intelligent power management can mitigate this.
+The main component is the use of UHF RFID readers/tags. These are the type of RFID systems typically used for auto entry car parks and road tolls. They have the advantage of very low cost tags (10p each if bought in bulk) and long range reading (3 metres or more) which means competitors do not have to stop at CPs (nor even slow down). As long as they get within range of the reader they'll be recorded. The disadvantage of UHF is the higher cost of the readers (compared with for e.g. NFC, as found in modern smartphones), but if carefully sourced (i.e. China!) the cost is not prohibitive. Another disadvantage is the comparatively high power requirement (you don't get long range without broadcasting a lot of power!), but intelligent power management can mitigate this.
 
-On top of the UHF tag readers is the use of *all* the modern comms capbilities to ensure a connection back to HQ, and/or the internet, can always be achieved. The comms include: Wifi, Bluetooth, LTE (mobiles) and LoRa (long range low power radio).
+On top of the UHF tag readers is the use of *all* the modern comms capabilities to ensure a connection back to HQ, and/or the internet, can always be achieved. The comms include: Wifi, Bluetooth, LTE (mobiles) and LoRa (long range low power radio).
 
 And finally, to allow the device to self configure from its location, a GPS module so it knows where it is and can behave accordingly.
 
@@ -39,8 +39,9 @@ The only other equipment required to run this system is any phone, tablet, lapto
 ## Typical hardware components and costings
 
  - UHF readers (with circulary polarised antennas), there are lots on alibaba.com (the Chinese equivalent of Amazon), ranging from $68 (US) upwards, plus shipping/tax, allow £80 per reader (e.g. ACM-812A on alibaba.com)
+ - RS232 to TTL converter, connect UHF reader to Pi Zero, about £5 (e.g. SparkFun Transceiver Breakout - MAX3232)
  - Pi Zero W, £10 from PiHut, provides the web server software platform and the 'glue' and the WiFI AP (Access Point) for external devices
- - SD card, 32GB, about £7
+ - SD card, 32GB, about £8
  - Pycom Fipy, about £50, provides the comms, WiFi (for internet access), LTE (NB-IoT access), LoRa (provides the Pymesh radio network)
  - RTC (rea-time clock), about £5 (PiHut mini RTC module), provides date/time even when powered off (NB: GPS can supply time but not date)
  - GPS, about £12 (TeOhk GT-U7 on Amazon), or Stemedu USB GPS Module Vk-162 on Amazon £20 (waterproof)
@@ -63,6 +64,8 @@ The only other equipment required to run this system is any phone, tablet, lapto
   - Webserver, loads available for the Pi
   - Glue software, part of this project
   - Web app, the application users of the system interact with, part of this project
+
+  ![Software Config](/software-config.drawio.png)
   
   ## Road map (this is all vapourware as of 10/11/20)
   
