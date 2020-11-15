@@ -1,4 +1,5 @@
 # fellsafe-uhf
+The inspiration for this project came primarily from this: http://harrierleague.com/chiptimingdiy/
 
 ## What is it?
 An open-source hardware and software solution to running club level fell racing events safely and accurately.
@@ -8,7 +9,8 @@ There are many commercial and DIY systems around, so why create yet another?
 
 Simple: convienence and low cost.
 
-Convienence comes from zero maintanence, zero setup, and ease of use through only requiring any modern web browser on any device to use it.
+Convienence comes from zero maintanence, zero setup, zero impact on competitors and ease of use through only requiring any modern web browser on any device to use it.
+
 Low cost comes from using readily available industry standard hardware modules that are glued together using free open source software.
 
 ## The vision
