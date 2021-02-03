@@ -8,7 +8,7 @@
 import uasyncio as asyncio
 
 #auto called at start-up
-def task(_,loop,log):
+def task(_,loop,log,_2):
     loop.create_task(me_coro(log))
     log.info('created task')
 

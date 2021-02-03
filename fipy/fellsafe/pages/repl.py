@@ -1,5 +1,6 @@
 """history:
-    28/01/21 DCN: Created stub
+    2021001-28 DCN: Created stub
+    2021-02-03 DCN: pre-compile our templates
     """
 """description:
     This provides a simple REPL in the browser, the browser sends a command
@@ -31,6 +32,9 @@ import picoweb
 import ure as re
 import board
 
+PAGE_LAYOUT = None
+REPL_LAYOUT = '_repl_layout.html'
+
 app = None
 log = None
 
@@ -40,23 +44,29 @@ commands     = []                        # command history
 responses    = []                        # response history
 
 #auto called at start-up, register our route and its handler
-def page(app_in,_,log_in):
-    global app,log
+def page(app_in,_,log_in,layout):
+    global PAGE_LAYOUT,app,log
+    PAGE_LAYOUT = layout
     app = app_in
     log = log_in
     app.add_url_rule('/repl',repl)
     app.add_url_rule(re.compile('^/repl/(.+)'),do_command)
     log.info('/repl and /repl/(.+) routed')
+
+    # pre-compile our layout
+    app.compile_template(REPL_LAYOUT)    # compile our content template
+    log.info(REPL_LAYOUT + ' compiled')
+    
     
 #these are called as coroutines (ie. an iterable)
 def repl(req,resp):
     # send the controlling page (with its JS and CSS)
-    content = '_repl_layout.html'              # name of our content template
     yield from picoweb.start_response(resp)
-    app._load_template(content)                # compile our content template
-    yield from app.render_template(resp,'_page_layout.html',(board.name,'Fellsafe REPL',None,content,[commands,responses]))
+    yield from app.render_template(resp,PAGE_LAYOUT,(board.name,'Fellsafe REPL',None,REPL_LAYOUT,[commands,responses]))
     
 
+# called when a repl line is sent from the web page
+# do it and send response
 def do_command(req,resp):
     command = req.url_match.group(1)           # get the command string, this is URI encoded,
                                                # so we have to translate %xx to utf-8 characters

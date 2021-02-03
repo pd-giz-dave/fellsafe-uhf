@@ -1,10 +1,14 @@
 """ history
-    2021-01-30 DCN: created by copying github master from ???
+    2021-01-30 DCN: created by copying github master from https://github.com/pfalcon/picoweb
     2021-02-01 DCN: Minor tweaks, changed 'run' to 'start' and removed loop.run_forever()
     2021-02-02 DCN: Remove garbage collector stuff (asyncio now does it)
                     use utemplate.recompile not utemplate.source
                     turn on debug logs in utemplate
                     extend get_mime_type for javascript
+    2021-02-03 DCN: Add compile_template which uses utemplate.recompile
+                    revert _load_template to using utemplate.source
+                    remove render_str
+                    pass template_root into WebApp class (to override hard-wired 'templates')
     """
 """ description
     Picoweb web pico-framework for Pycopy, https://github.com/pfalcon/pycopy
@@ -19,7 +23,6 @@ import uasyncio as asyncio
 from .utils import parse_qs
 
 SEND_BUFSZ = 128
-
 
 def get_mime_type(fname):
     # Provide minimal detection of important file
@@ -89,7 +92,7 @@ class HTTPRequest:
 
 class WebApp:
 
-    def __init__(self, pkg, routes=None, serve_static=True, document_root='.'):
+    def __init__(self, pkg, routes=None, serve_static=True, document_root='.',template_root='templates'):
         if routes:
             self.url_map = routes
         else:
@@ -99,13 +102,15 @@ class WebApp:
         else:
             self.pkg = None
         self.document_root = document_root     #30/01/21 DCN: Added for sendfile
+        self.template_root = template_root
         if serve_static:
             self.url_map.append((re.compile("^/(static/.+)"), self.handle_static))
         self.mounts = []
         self.inited = False
         # Instantiated lazily
-        self.template_loader = None
-        self.headers_mode = "parse"
+        self.template_loader   = None
+        self.template_compiler = None
+        self.headers_mode      = "parse"
 
     def parse_headers(self, reader):
         headers = {}
@@ -262,23 +267,25 @@ class WebApp:
     def _load_template(self, tmpl_name):
         if self.template_loader is None:
             # import late so its not a dependency unless used
-            import utemplate.recompile
+            import utemplate.source
             if self.debug >= 0:
-                import utemplate.source
                 utemplate.source.set_debug(self.debug)
                 self.log.info('Loading template {} via {}'.format(tmpl_name,self.pkg))
-            self.template_loader = utemplate.recompile.Loader(self.pkg, 'templates')     # use recompile so notices changes
+            self.template_loader = utemplate.source.Loader(self.pkg, self.template_root)
         return self.template_loader.load(tmpl_name)
+
+    def compile_template(self, tmpl_name):
+        if self.template_compiler is None:
+            import utemplate.recompile                                         # use re-compile so notices changes
+            if self.debug >= 0:
+                self.log.info('Compiling template {} via {}'.format(tmpl_name,self.pkg))
+            self.template_compiler = utemplate.recompile.Loader(self.pkg, self.template_root)
+        self.template_compiler.load(tmpl_name)
 
     def render_template(self, writer, tmpl_name, args=()):
         tmpl = self._load_template(tmpl_name)
         for s in tmpl(*args):
             yield from writer.awrite(s)                                        #18/01/21 DCN: Was awritestr(s) which does not exist
-
-    def render_str(self, tmpl_name, args=()):
-        #TODO: bloat
-        tmpl = self._load_template(tmpl_name)
-        return ''.join(tmpl(*args))
 
     def sendfile(self, writer, fname, content_type=None, headers=None):
         if not content_type:

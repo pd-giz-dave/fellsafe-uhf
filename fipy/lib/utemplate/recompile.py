@@ -31,9 +31,9 @@ class Loader(source.Loader):
                 # input file is newer, remove output to force recompile
                 remove(o_path)
                 if __debug__ and source.DEBUG:
-                    source.log.debug('recompile.load: removed out of date %s',o_path)
+                    source.log.debug('recompile: removed out of date %s',o_path)
         except OSError:
             if __debug__ and source.DEBUG:
-                source.log.debug('recompile.load: not compiled yet %s',i_path)
+                source.log.debug('recompile: not compiled yet %s',i_path)
         finally:
             return super().load(name)

@@ -15,7 +15,7 @@ app = None
 log = None
 
 #auto called at start-up, register our route and its handler
-def api(app_in,_,log_in):
+def api(app_in,_,log_in,_2):
     global app,log
     app = app_in
     log = log_in

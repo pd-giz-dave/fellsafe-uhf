@@ -88,28 +88,37 @@ HOST_PORT = 80
 # 1 (True) debug logging
 # 2 extra debug logging
 DEBUG_LEVEL   = 2
-LOGGING_LEVEL = logging.DEBUG            #see ulogging module for other options
+LOGGING_LEVEL = logging.DEBUG            # see ulogging module for other options
 
-#(folder name, function name) tuples to scan and run
-FOLDERS = [('pages','page'),
-           ('api'  ,'api'),
-           ('tasks','task')
+MASTER_LAYOUT = '_page_layout.html'      # all pages are based on this
+
+# (folder name, function name, parameter) tuples to scan and run
+FOLDERS = [('pages','page', MASTER_LAYOUT),
+           ('api'  ,'api' , None         ),
+           ('tasks','task', None         ),
           ]
 
-#this is called from main.py on boot-up
+# this is called from main.py on boot-up
 def start():
-    logging.basicConfig(level=LOGGING_LEVEL)   #setup logging
+    logging.basicConfig(level=LOGGING_LEVEL)   # setup logging
     log = logging.getLogger(__name__)
     log.debug('logging enabled at level {}'.format(LOGGING_LEVEL))
     log.info('starting...')
-    import fellsafe_on                         #Turn on WiFi as a Fellsafe AP
+    import fellsafe_on                         # turn on WiFi as a Fellsafe AP
 
-    loop = asyncio.get_event_loop()            #instantiate the async scheduler ASAP
-    app = picoweb.WebApp(__name__,None,True,os.getcwd()+'/'+__path__)  #instantiate the web app early so we can add routes before we start it
+    loop = asyncio.get_event_loop()            # instantiate the async scheduler loop ASAP
+
+    # start the web app early so we can add routes and compile templates before we start
+    app = picoweb.WebApp(__name__,None,True,os.getcwd()+'/'+__path__)
+    app.start(debug=DEBUG_LEVEL,host=HOST_IP,port=HOST_PORT)
+
+    # pre-compile our master template
+    app.compile_template(MASTER_LAYOUT)
+    log.info(MASTER_LAYOUT + ' compiled')
     
     #find and start all our components
     for folder in FOLDERS:
-        log.info('scanning {} for {}'.format(folder[0],folder[1]))
+        log.info('scanning {} for {} passing {}'.format(folder[0],folder[1],folder[2]))
         items = os.listdir(__path__+'/'+folder[0])
         for item in items:
             path = str.split(item,'.')
@@ -120,12 +129,11 @@ def start():
                 module = sys.modules[module]
                 if hasattr(module,folder[1]) and callable(getattr(module,folder[1])):
                     #the function we want exists, so call it
-                    getattr(module,folder[1])(app,loop,logging.getLogger(path[0]))
+                    getattr(module,folder[1])(app,loop,logging.getLogger(path[0]),folder[2])
                 else:
                     log.warning('module {} has no callable {} attribute'.format(module,folder[1]))
 
     #now start the web server
-    app.start(debug=DEBUG_LEVEL,host=HOST_IP,port=HOST_PORT)
     
     #now fire it all up
     log.info('...running...')
