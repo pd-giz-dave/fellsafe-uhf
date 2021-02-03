@@ -1,6 +1,7 @@
 """ history
     2021-01-30 DCN: created
     2021-02-01 DCN: Use waitq module not utimeq (to cope with rollover issues)
+    2021-02-02 DCN: Add garbage collection when go idle
     """
 
 """ description
@@ -11,6 +12,8 @@
 import utime as time
 import ucollections
 import waitq
+import gc
+import micropython
 
 type_gen = type((lambda: (yield))())
 
@@ -73,6 +76,7 @@ class EventLoop:
         time.sleep_ms(delay)
 
     def run_forever(self):
+        last_collected = self.waitq._time()     # used to detect a quiet time to do garbage collection
         cur_task = [0, 0, 0]
         while True:
             # Expire entries in waitq and move them to runq
@@ -167,9 +171,17 @@ class EventLoop:
 
             # Wait until next waitq task or I/O availability
             if not self.runq:
+                # nothing in the run q, check the delay q
                 delay = self.waitq.delay()
             else:
                 delay = 0
+            if delay > 10 and time.ticks_diff(self.waitq._time(),last_collected) > 10:
+                # we haven't done anything for a while and we're about to delay so...
+                # do a garbage collection while its impact is likely to be minimal
+                gc.collect()
+                last_collected = self.waitq._time()        # note to not do it again for a bit
+            if delay == 0:
+                last_collected = self.waitq._time()        # we're busy, so delay next gc
             self.wait(delay)
 
     def run_until_complete(self, coro):

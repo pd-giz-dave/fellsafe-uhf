@@ -3,10 +3,8 @@
     """
 
 """ description
-    An example of the structure of a task module.
-    Copy the code and then use the header snippet on the first line of the new file
+    UHF reader interface
     """
-
 
 import uasyncio as asyncio
 

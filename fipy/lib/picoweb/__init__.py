@@ -1,6 +1,10 @@
 """ history
     2021-01-30 DCN: created by copying github master from ???
     2021-02-01 DCN: Minor tweaks, changed 'run' to 'start' and removed loop.run_forever()
+    2021-02-02 DCN: Remove garbage collector stuff (asyncio now does it)
+                    use utemplate.recompile not utemplate.source
+                    turn on debug logs in utemplate
+                    extend get_mime_type for javascript
     """
 """ description
     Picoweb web pico-framework for Pycopy, https://github.com/pfalcon/pycopy
@@ -8,8 +12,6 @@
     SPDX-License-Identifier: MIT
     """
 
-import gc
-import micropython
 import ure as re
 import uerrno
 import uasyncio as asyncio
@@ -26,6 +28,8 @@ def get_mime_type(fname):
         return "text/html"
     if fname.endswith(".css"):
         return "text/css"
+    if fname.endswith(".js"):
+        return "text/javascript"
     if fname.endswith(".png") or fname.endswith(".jpg"):
         return "image"
     return "text/plain"
@@ -114,8 +118,6 @@ class WebApp:
         return headers
 
     def _handle(self, reader, writer):
-        if self.debug > 1:
-            micropython.mem_info()
 
         close = True
         req = None
@@ -259,10 +261,13 @@ class WebApp:
 
     def _load_template(self, tmpl_name):
         if self.template_loader is None:
-            import utemplate.source
+            # import late so its not a dependency unless used
+            import utemplate.recompile
             if self.debug >= 0:
+                import utemplate.source
+                utemplate.source.set_debug(self.debug)
                 self.log.info('Loading template {} via {}'.format(tmpl_name,self.pkg))
-            self.template_loader = utemplate.source.Loader(self.pkg, "templates")
+            self.template_loader = utemplate.recompile.Loader(self.pkg, 'templates')     # use recompile so notices changes
         return self.template_loader.load(tmpl_name)
 
     def render_template(self, writer, tmpl_name, args=()):
@@ -309,7 +314,6 @@ class WebApp:
             import ulogging as logging
             log = logging.getLogger("picoweb")
         self.log = log
-        gc.collect()
         self.debug = int(debug)
         self.init()
         if not lazy_init:

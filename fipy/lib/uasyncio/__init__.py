@@ -137,7 +137,7 @@ class StreamReader:
 
     def readline(self):
         if DEBUG and __debug__:
-            log.debug("StreamReader.readline()")
+            log.debug("StreamReader.readline(): start")
         buf = b""
         while True:
             yield IORead(self.polls)

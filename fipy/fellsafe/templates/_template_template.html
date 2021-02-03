@@ -1,14 +1,19 @@
+<!-- Use HTML file extension so we get syntax highlighting in vscode                           -->
+<!-- Below is a trivial eg followed by the template language syntax                            -->
+<!-- NB: Do NOT put comments in real templates, the template renderer tries to interpret them! -->
+
 {% args req %}
 <!DOCTYPE html>
 <html>
 Request path: '{{req.path}}'<br>
 <table border="1">
 {% for i in range(5) %}
-<tr><td> {{i}} </td><td> {{"%2d" % i ** 2}} </td></tr>
+<tr><td> {{i}} </td><td> {{"%2d" % i ** 2}} </td></tr> <!--just a table of squares-->
 {% endfor %}
 </table>
-</html
+</html>
 
+<!--
 Syntax:
 
 Evaluating Python expression, converting it to a string and outputting to rendered content:
@@ -24,8 +29,8 @@ Supported statements:
     {% while %}, {% endwhile %} - the usual "while" statement
     {% args var1, var2, ... %} - specify arguments to a template
     {% set var = expr %} - assignment statement
-    {% include "name.tpl" %} - statically include another template
-    {% include {{name}} %} - dynamically include template whose name is stored in variable name.
+    {% include "name.tpl" [args] %} - statically include another template
+    {% include {{name}} [args] %} - dynamically include template whose name is stored in variable name.
 
 Naming Conventions
 
@@ -35,3 +40,7 @@ The current conventions (may be adjusted in the future):
     When template is compiled, dot (.) in its name is replaced with underscore (_) and .py appended, e.g. example_tpl.py. It thus can be imported with import example_tpl.
     The name passed to {% include %} statement should be full name of a template with extension, e.g. {% include "example.tpl" %}.
     For dynamic form of the include, a variable should similarly contain a full name of the template, e.g. {% set name = "example.tpl" %} / {% include {{name}} %}.
+    When using the dynamic form, the referenced template must be compiled separately first.
+    Any words after the name are interpreted as argument names to the included template.
+    02/02/21 DCN: The names are relative to the templates folder.
+-->

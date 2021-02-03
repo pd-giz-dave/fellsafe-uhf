@@ -1,0 +1,26 @@
+{% args vars %}
+<div id="repl">
+    <div class='responses'>
+    {% for r in vars[1] %}
+        response history {{r}}</br>
+    {% endfor %}
+    </div>
+    <div class='commands'>
+    {% for c in vars[0] %}
+        command history {{c}}</br>
+    {% endfor %}
+    </div>
+    <div class='response' id='response'>
+    </div>
+    <div class='command'>
+        <input type='text' value='command line goes here' onkeydown='fellsafe.doReplLine(event)'/>
+    </div>
+</div>
+<script>
+fellsafe.doReplLine = function(e) {
+    if (e.keyCode == 13) {
+        //user pressed the enter key
+        fellsafe.send('repl',e.target.value,'response')
+    }
+}
+</script>

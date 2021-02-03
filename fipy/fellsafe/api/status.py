@@ -8,6 +8,8 @@
 import picoweb
 import board
 import utime
+import gc
+import micropython as mpy
 
 app = None
 log = None
@@ -23,6 +25,17 @@ def api(app_in,_,log_in):
 
 #generate system status response
 def handler(req,resp):
-    status = {'board': {'name': board.name, 'type': 'FiPy'},
-              'tasks': {'ticks': utime.ticks_ms()}}
+    gmt = utime.gmtime()
+    status = {'board':  {'name':     board.name,
+                        'type':      'FiPy',
+                        },
+              'time':   {'ticks_ms': utime.ticks_ms(),
+                         'date':     '{:04n}-{:02n}-{:02n}'.format(gmt[0],gmt[1],gmt[2]),
+                         'time':     '{:02n}:{:02n}:{:02n}'.format(gmt[3],gmt[4],gmt[5]),
+                        },
+              'memory': {'alloc':    gc.mem_alloc(),
+                         'free':     gc.mem_free(),
+                         'stack':    mpy.stack_use(),
+                        },
+             }
     yield from picoweb.jsonify(resp,status)

@@ -18,8 +18,8 @@ def page(app_in,_,log_in):
     app = app_in
     log = log_in
     app.add_url_rule('/',index)
-    log.info('page routed')
+    log.info('/ routed')
 
 def index(req, resp):
     yield from picoweb.start_response(resp)
-    yield from app.render_template(resp,'_page_layout.html',(board.name,'Hello from Fellsafe!',None))
+    yield from app.render_template(resp,'_page_layout.html',(board.name,'Hello from Fellsafe!',None,None,None))

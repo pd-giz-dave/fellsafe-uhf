@@ -19,7 +19,7 @@
 		"scope": "python",
 		"prefix": "header",
 		"body": [
-			"\"\"\" history\n    $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE DCN: created\n    \"\"\"\n",
+			"\"\"\" history\n    $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE DCN: created\n    \"\"\"",
 			"\"\"\" description\n    ${1:Enter description}\n    \"\"\"\n"
 		],
 		"description": "Insert an empty history and description comment block"
