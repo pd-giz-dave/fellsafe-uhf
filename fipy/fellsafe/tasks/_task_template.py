@@ -1,7 +1,6 @@
 """ history
     2021-02-01 DCN: created stub
     """
-
 """ description
     An example of the structure of a task module.
     Copy the code and then use the header snippet on the first line of the new file

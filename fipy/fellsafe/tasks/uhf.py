@@ -1,7 +1,6 @@
 """ history
     2021-02-01 DCN: created stub
     """
-
 """ description
     UHF reader interface
     """
