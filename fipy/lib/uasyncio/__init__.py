@@ -1,8 +1,7 @@
 """ history
-    2021-01-30 DCN: created by copying github master from ???
+    2021-01-30 DCN: created by copying github master from https://github.com/pfalcon/pycopy-lib/tree/master/uasyncio
     2021-02-01 DCN: Minor tweaks
     """
-
 """ description
     See uasyncio documentation
     """

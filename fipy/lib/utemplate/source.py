@@ -1,5 +1,5 @@
 """ history
-    2021-01-30 DCN: created by copying the github master from ???
+    2021-01-30 DCN: created by copying the github master from https://github.com/pfalcon/utemplate
     2021-02-02 DCN: Add logging
                     apply templates path to included templates
     2021-02-03 DCN: Show template name auto generated file was created from
