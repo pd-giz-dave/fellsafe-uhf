@@ -23,7 +23,8 @@ async def me_coro(log):
             #do something, e.g.
             await asyncio.sleep(10)      #returns an iterable from here
             log.info('still here')
-        except:
-            break
+        except Exception as e:
+            log.exc(e,'oops!')
+            break                        # TODO: do whatever it takes to recover
     log.info('...stopping')
     #returns stop iteration from here

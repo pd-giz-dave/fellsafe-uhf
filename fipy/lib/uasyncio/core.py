@@ -48,6 +48,7 @@ class EventLoop:
         # in the event loop (sub-coroutines executed transparently by
         # yield from/await, event loop "doesn't see" them).
         self.cur_task = None
+        gc.enable()
 
     def create_task(self, coro):
         # CPython 3.4.2

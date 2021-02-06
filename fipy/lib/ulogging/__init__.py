@@ -2,7 +2,6 @@
     2021-01-30 DCN: created by copying github master from https://github.com/pfalcon/pycopy-lib/tree/master/ulogging
     2021-02-01 DCN: Added elapsed time since start on front of all log messages
     """
-
 """ description
     See ulogging documentation
     """

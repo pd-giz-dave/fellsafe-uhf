@@ -18,7 +18,11 @@
 Can't find anything that beats the Pycom FiPy
 
 # LTE-M and NB-Iot
-Can't find anything that beats the Pycom FiPy
+Can't find anything that beats the Pycom FiPy for the hardware.
+
+Pycom supported provider is Vodafone on a NB-IoT network - its expensive for this use case ~£2.50 per month per device, its only davantage is integration with their pybytes platform.
+
+An alternative is *ThingsMobile.com*, they provide a global roaming LTE-M service (which is O2 in the UK) with no fixed fee, its pay-as-you-go at ~10p/MB, for our use case that's huge. Pre-paid credit does not run out (except if not used for 12 months they charge 10p) and better yet, you have an account with N sims and the credit is spread across all of them. The only up-front fee is the sim at £3 each (plus a bit of hassle to register your account).
 
 # m5stack
 This is a system that is easy to plug together, so would be simpler for DIY configuration. Suitable modules are:

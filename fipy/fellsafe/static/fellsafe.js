@@ -1,17 +1,22 @@
-//a namespace wrapper for all our stuff
-fellsafe = {};
+//a global namespace wrapper for all our stuff (to prevent name clashes)
+//fs == FellSafe
+fs = {};
 
 //hexify an arbitrary string
-fellsafe.toHex = function(s) {
+//useful for sending binary data to some end-point url
+fs.toHex = function(s) {
     let h = ''
     for (let i = s.length - 1; i >= 0; i--)
-        h = '%'+ s.charCodeAt(i).toString(16) + h
-    return h
+        h = '%'+ s.charCodeAt(i).toString(16) + h;
+    return h;
 };
 
 //send an AJAX request and get JSON response
-fellsafe.send = function(url,s,dest) {
+fs.send = function(url,s,cb) {
+    //url is the prefix url
+    //s is the suffix url
+    //dest is a document id to send the result to
     fetch('/'+url+'/'+encodeURI(s))
         .then(response => response.json())
-        .then(data => document.getElementById(dest).innerHTML = data);
+        .then(data => cb(data));
 };

@@ -1,16 +1,20 @@
 {% args name,header,footer,layout,vars %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 {% include '_html_head.html' name %}
 <body>
-{% if header is not None %}<div class='header'>{{header}}</div>{% endif %}
-{% if layout is not None and vars is not None%}
-    {% if vars is None %}
-        {% include {{layout}} %}
-    {% else %}
-        {% include {{layout}} vars %}
-    {% endif %}
+{% if header is not None %}
+<header class='fs-header'>{{header}}</header>
 {% endif %}
-{% if footer is not None %}<div class='footer'>{{footer}}</div>{% endif %}
+{% if layout is not None and vars is not None%}
+{%   if vars is None %}
+{%     include {{layout}} %}
+{%   else %}
+{%     include {{layout}} vars %}
+{%   endif %}
+{% endif %}
+{% if footer is not None %}
+<footer class='fs-footer'>{{footer}}</footer>
+{% endif %}
 </body>
 </html>
