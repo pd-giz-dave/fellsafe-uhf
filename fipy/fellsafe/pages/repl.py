@@ -94,7 +94,7 @@ def do_response(resp,command,response):
 # NB: all route handlers that must be an 'iterable', that means they must yield and not just return
 def do_help(req,resp):
     yield from do_response(resp,'_help','_help: show this help</br>'+\
-                                        '_clear: clear command and response history (do a page refresh after)</br>'+\
+                                        '_clear: clear command and response history</br>'+\
                                         '_reset: clear globals and locals, effectively a re-boot on this repl</br>'+\
                                         '_stop: stop the application (does a device hard reset</br>'+\
                                         '_log=N: set logging level to N, 0=off,1=info,2=debug (you need access to the serial console to see it)</br>'+\
@@ -118,7 +118,7 @@ def do_stop(req,resp):
     #we never get here
 
 
-# TODO: provide command to view the log (how? dupterm has problems, use assets/console.py for experiments)
+# TODO: provide command to view the log (how? dupterm has problems)
 
 
 def do_log(req,resp):

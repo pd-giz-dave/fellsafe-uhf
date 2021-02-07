@@ -19,17 +19,17 @@ fs.doReplLine = function(e) {
     function replResponse(data) {
         //callback with the response from our command send
         if (command == '_clear') {
-            fs.responses = []
-            fs.commands  = ['_clear']
+            fs.responses = [];
+            fs.commands  = [];
         }
+        fs.commands.push(command);
         fs.responses.push(data);
+        fs.replLoad(fs.commands ,'fs-repl-command-history');
         fs.replLoad(fs.responses,'fs-repl-response-history');
     };
     if (e.keyCode == 13) {
         //user pressed the enter key
         command = e.target.value
-        fs.commands.push(command);
-        fs.replLoad(fs.commands,'fs-repl-command-history');
         fs.send('repl',command,replResponse);
         e.target.value = '';
     }
@@ -40,13 +40,13 @@ fs.commands  = [];
 document.addEventListener('DOMContentLoaded',function(event){
 {% if len(vars[1]) > 0 %}
 {%     for r in vars[1] %}
-    fs.responses.push('{{r}}');
+    fs.responses.push({{r}});
 {%     endfor %}
     fs.replLoad(fs.responses,'fs-repl-response-history');
 {% endif %}
 {% if len(vars[0]) > 0 %}
 {%     for c in vars[0] %}
-    fs.commands.push('{{c}}');
+    fs.commands.push({{c}});
 {%     endfor %}
     fs.replLoad(fs.commands,'fs-repl-command-history');
 {% endif %}

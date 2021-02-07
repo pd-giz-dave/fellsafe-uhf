@@ -176,13 +176,13 @@ class EventLoop:
                 delay = self.waitq.delay()
             else:
                 delay = 0
-            if delay > 10 and time.ticks_diff(self.waitq._time(),last_collected) > 10:
+            if delay > 0 and time.ticks_diff(self.waitq._time(),last_collected) > 10:
                 # we haven't done anything for a while and we're about to delay so...
                 # do a garbage collection while its impact is likely to be minimal
                 gc.collect()
                 last_collected = self.waitq._time()        # note to not do it again for a bit
             if delay == 0:
-                last_collected = self.waitq._time()        # we're busy, so delay next gc
+                last_collected = self.waitq._time()        # we're busy, so delay next gc by pretending we did it now
             self.wait(delay)
 
     def run_until_complete(self, coro):
