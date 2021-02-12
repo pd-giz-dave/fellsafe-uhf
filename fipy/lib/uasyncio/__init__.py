@@ -1,6 +1,7 @@
 """ history
     2021-01-30 DCN: created by copying github master from https://github.com/pfalcon/pycopy-lib/tree/master/uasyncio
     2021-02-01 DCN: Minor tweaks
+    2021-02-07 DCN: Show first N bytes in awrite debug message
     """
 """ description
     See uasyncio documentation
@@ -149,7 +150,7 @@ class StreamReader:
             if buf[-1] == 0x0a:
                 break
         if DEBUG and __debug__:
-            log.debug("StreamReader.readline(): %s", buf)
+            log.debug("StreamReader.readline(): %s", repr(buf))
         return buf
 
     def aclose(self):
@@ -175,7 +176,7 @@ class StreamWriter:
         if sz == -1:
             sz = len(buf) - off
         if DEBUG and __debug__:
-            log.debug("StreamWriter.awrite(): spooling %d bytes", sz)
+            log.debug("StreamWriter.awrite(): spooling %d bytes: %s...", sz,repr(buf[off:min(off+16,sz)]))
         while True:
             res = self.s.write(buf, off, sz)
             # If we spooled everything, return immediately

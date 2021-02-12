@@ -24,6 +24,9 @@ Pycom supported provider is Vodafone on a NB-IoT network - its expensive for thi
 
 An alternative is *ThingsMobile.com*, they provide a global roaming LTE-M service (which is O2 in the UK) with no fixed fee, its pay-as-you-go at ~10p/MB, for our use case that's huge. Pre-paid credit does not run out (except if not used for 12 months they charge 10p) and better yet, you have an account with N sims and the credit is spread across all of them. The only up-front fee is the sim at £3 each (plus a bit of hassle to register your account).
 
+However, LTE-M and NB-IoT coverage in the UK is weak/non-existant outside the South-East, so forget that and instead use the 'old' 2G/GPRS system. Modems for this are very cheap (e.g. SIM800L is ~£4 from here https://www.amazon.co.uk/gp/product/B07V29R4P8/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1) and work with the ThingsMobile SIMs.s
+
+
 # m5stack
 This is a system that is easy to plug together, so would be simpler for DIY configuration. Suitable modules are:
 - GPS $28.50

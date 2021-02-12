@@ -1,6 +1,6 @@
 """ history
     2021-02-06 DCN: created from https://github.com/danni/uwebsockets
-                    tweaked to remove dependency on random.getrandbits()
+                    tweaked to use ucrypto.getrandbits instead of random.getrandbits()
     """
 """ description
     Websockets protocol
@@ -9,9 +9,10 @@
 import ulogging as logging
 import ure as re
 import ustruct as struct
-import uos.urandom as random
+import ucrypto.getrandbits as getrandbits
 import usocket as socket
 from ucollections import namedtuple
+from micropython import const
 
 LOGGER = logging.getLogger(__name__)
 
@@ -164,7 +165,7 @@ class Websocket:
             raise ValueError()
 
         if mask:  # Mask is 4 bytes
-            mask_bits = struct.pack('!I', int.from_bytes(random(4),'big'))     # NB: endedness of random() not important, its still random
+            mask_bits = struct.pack('!I', int.from_bytes(getrandbits(32)))
             self.sock.write(mask_bits)
 
             data = bytes(b ^ mask_bits[i % 4]

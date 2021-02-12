@@ -2,12 +2,12 @@
     2021-02-06 DCN: created
     """
 """ description
-    Provide a 'console' to capture sys.stdout/err (via os.dupterm)
-    The captured output is in a cyclic buffer.
+    Provide a streamable cyclic buffer that can be used with uasyncio tasks
     """
 
 import uos as os
 import uio as io
+import uasyncio
 
 class Console(ByteStream):
     def __init__(self,buf_size=None):
@@ -25,7 +25,7 @@ class ByteStream(io.BytesIO):
         self.rptr = 0
 
     def write(self, data):
-        # limit data size to our size, chop leading data iff too big
+        # limit data size to our size, chop trailing data iff too big
         # wptr is current write position, this increments forever, so we have to wrap as required
         # data to be saved may be split if it wraps past end of buffer
         # return number of bytes written
@@ -42,10 +42,24 @@ class ByteStream(io.BytesIO):
         return 0
 
     def read(self,nbytes=0):
-        # read up to nbytes, return a bytes object
+        # read up to nbytes or as many as available, return a bytes object
         available = self.wptr - self.rptr
         if available <= 0: return b''  # nothing available
         buf = bytearrary(available)
         rbytes = self.readinto(buf,nbytes)
+        # TODO: implement ByteStream.read that does not use readinto
         return buf[:rbytes]
 
+class AsyncStream(ByteStream):
+    def __init__(self,buf_size=None):
+        self.stream = super().__init__(buf_size)
+        self.input  = uasyncio.StreamReader(self.stream)
+        self.output = uasyncio.StreamWriter(self.stream)
+
+    def read(self,nbytes=0):
+        return yield from self.input.read(nbytes)
+
+    def write(self,data):
+        yield from self.output.write(data)
+        
+# TODO: exemplar asyncio task using AsyncStream
