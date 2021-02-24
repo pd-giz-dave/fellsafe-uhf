@@ -9,7 +9,7 @@ There are many commercial and DIY systems around, so why create yet another?
 
 Simple: convenience and low cost.
 
-Convenience comes from zero maintenance, zero setup, zero impact on competitors and ease of use through only requiring any modern web browser on any device to use it.
+Convenience comes from zero maintenance, zero setup, zero impact on competitors and ease of use through only requiring any modern web browser on any device with WiFi to use it.
 
 Low cost comes from using readily available industry standard hardware modules that are glued together using free open source software.
 
@@ -44,35 +44,34 @@ The only other equipment required to run this system is any phone, tablet, lapto
  - RS232 to TTL converter, connect UHF reader to the Lopy4, about £5 (e.g. SparkFun Transceiver Breakout - MAX3232)
  - Pycom Lopy4, about £35, provides the comms, WiFi and LoRa
  - SIM800L GPRS modem (mobile), about £4, provides the internet link over the mobile network when one is visible
- - PyTrack2 GPS module, about £35, also provides an SD Card and a USB interface for software development
+ - PyTrack2 GPS module, about £35, also provides an SD Card interface and a USB interface for software development
  - Battery, 12v 5Ah+, motor-cycle lead-acid (far cheaper than Lithium-Ion), about £10, e.g. pro-elec PEL01436 12v 7Ah from cpc.farnell.com, 65 x 101 x 151 mm, 2.05 kg
  - Case, a waterproof case to house all the electronics tidily (use an electrical junction box), allow £10
  - Mounting poles and/or tripods, allow £10
- - GPRS/WiFi*2/Lora antenna, £20
- - IoT SIM card, 1nce.com £10 for 500MB valid for 10 years, or ThingsMobile.com (£10 for 100MB never expires)
+ - GPRS/WiFi/Lora/GPS antenna, £20
+ - IoT SIM card, 1nce.com £10 for 500MB valid for 10 years (but need to be a company), or ThingsMobile.com (£10 for 100MB, never expires)
  - PCB (later, initially use a breadboard and wires), e.g. pcbgogo.com $5 for 100mm x 100mm x 2 layers, allow £10
  - Other odds and ends, cables, connectors, power regulators, et al, allow £10
  
- This brings the total hardware cost to around £240 per unit. 
+ This brings the total hardware cost to around £260 per unit.
 
  ![Hardware Config](/hardware-config.drawio.png)
  
  ## Major software components
  
-  - Pymesh, provides a resilent comms network over the LoRa radios embedded in the FiPy units
-  - Diet Pi, the Linux based operating system used in the Pi Zero W compute device
-  - Webserver, loads available for the Pi
+  - Pycom libraries for the Lopy4/PyTrack2 hardware
+  - PyPi MicroPython libraries for everything you can think of, and then some!
   - Glue software, part of this project
-  - Web app, the application users of the system interact with, part of this project
+  - Web app, the application users of the system interact with, runs in the browser, part of this project
 
   ![Software Config](/software-config.drawio.png)
   
   ## Road map (this is all vapourware as of 10/11/20)
   
    - acquire prototype hardware (done)
-   - build proof of concept prototype (1 station, in progress, complete by Jan 2021)
-   - build demo prototype (3 stations, registration, start, finish, Mar 2021)
-   - dummy test 'race' with a few competitor volunteers (Apr 2021)
+   - build proof of concept prototype (1 station, in progress, complete by Apr 2021)
+   - build demo prototype (3 stations, registration, start, finish, May 2021)
+   - dummy test 'race' with a few competitor volunteers (June 2021)
    - use demo prototype in parallel with existing systems to gain usage feedback (whenever first race is!)
    - iterate
    - full implementation
@@ -80,6 +79,6 @@ The only other equipment required to run this system is any phone, tablet, lapto
    
   ## Prototype hardware PCB layouts
 
-   - initially use a crude vero-board layout
+   - initially use a crude vero/matrix board layout
 
-   ![Hardware PCB layouts](/hardware-pcb.drawio.png)
+  ![Hardware PCB layouts](/hardware-pcb.drawio.png)
