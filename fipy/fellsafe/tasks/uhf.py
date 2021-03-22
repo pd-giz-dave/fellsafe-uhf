@@ -9,12 +9,12 @@ import uasyncio as asyncio
 
 #auto called at start-up
 def task(_,loop,log,_2):
-    loop.create_task(me_coro(log))
+    loop.create_task(uhf_coro(log))
     log.info('created task')
 
 
 #this is the task itself    
-async def me_coro(log):
+async def uhf_coro(log):
     log.info('starting...')
     while True:
         try:

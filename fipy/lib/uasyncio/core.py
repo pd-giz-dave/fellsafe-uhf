@@ -15,7 +15,7 @@ import waitq
 import gc
 import micropython
 
-type_gen = type((lambda: (yield))())
+type_gen = type((lambda: (yield))())  # this is the type of a function that is a generator
 
 DEBUG = 0
 log = None

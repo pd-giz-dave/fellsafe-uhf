@@ -1,5 +1,6 @@
 
 """ history
+    2021-02-24 DCN: Get IP from the WLAN, not hard wired
     """
 """ description
 
@@ -74,21 +75,22 @@
 
     """
 
-import os
-import sys
-import uasyncio as asyncio
-import picoweb
+import board
 import ulogging as logging
 
-HOST_IP   = '192.168.4.1'
+HOST_IP   = ''
 HOST_PORT = 80
 # debug values:
 # -1 disable all logging
 # 0 (False) normal logging: requests and errors
 # 1 (True) debug logging
 # 2 extra debug logging
-DEBUG_LEVEL   = 2
-LOGGING_LEVEL = logging.DEBUG            # see ulogging module for other options
+if board.debug:
+    DEBUG_LEVEL   = 2
+    LOGGING_LEVEL = logging.DEBUG        # see ulogging module for other options
+else:
+    DEBUG_LEVEL   = 0
+    LOGGING_LEVEL = logging.INFO
 
 MASTER_LAYOUT = '_page_layout.html'      # all pages are based on this
 
@@ -104,9 +106,18 @@ def start():
     log = logging.getLogger(__name__)
     log.debug('logging enabled at level {}'.format(LOGGING_LEVEL))
     log.info('starting...')
-    import fellsafe_on                         # turn on WiFi as a Fellsafe AP
+
+    # these imports take a while
+    import os
+    import sys
+    import uasyncio as asyncio
+    import picoweb
+    import wifi
 
     loop = asyncio.get_event_loop()            # instantiate the async scheduler loop ASAP
+
+    global HOST_IP
+    HOST_IP = wifi.ap('fellsafe',loop,DEBUG_LEVEL>0)  # turn on WiFi as a Fellsafe AP (also starts an mDNS server)
 
     # start the web app early so we can add routes and compile templates before we start
     app = picoweb.WebApp(__name__,None,True,os.getcwd()+'/'+__path__)
@@ -133,8 +144,6 @@ def start():
                 else:
                     log.warning('module {} has no callable {} attribute'.format(module,folder[1]))
 
-    #now start the web server
-    
     #now fire it all up
     log.info('...running...')
     loop.run_forever()

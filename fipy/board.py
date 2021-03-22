@@ -1,6 +1,6 @@
 # Board name for use by rshell and fellsafe.py and fipy.py
 # By convention board names are programming language names as a single word in lower case.
-name = "python"  #this becomes the AP ssid suffix, e.g. 'fellsafe-python'
+name = "python"  #this becomes the AP ssid suffix, e.g. 'fellsafe-python', and the server domain name prefix, e.g. 'python.fellsafe'
 
 # Used in main.py to determine whether to start Fellsafe or just drop
 # through to the REPL. Iff True drop through to the REPL.

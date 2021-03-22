@@ -79,7 +79,8 @@ class PollEventLoop(EventLoop):
             log.debug("poll.wait(%d)", delay)
         # We need one-shot behavior (second arg of 1 to .ipoll())
         res = self.poller.ipoll(delay, 1)
-        #log.debug("poll result: %s", res)
+        if DEBUG and __debug__:
+            log.debug("poll result: %s", res)
         # Remove "if res" workaround after
         # https://github.com/micropython/micropython/issues/2716 fixed.
         if res:

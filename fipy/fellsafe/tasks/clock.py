@@ -16,12 +16,12 @@ UPDATE_INTERVAL = 1 * 60 * 60            # how often to re-sync in seconds (hour
 
 #auto called at start-up
 def task(_,loop,log,_2):
-    loop.create_task(me_coro(log))
+    loop.create_task(clock_coro(log))
     log.info('created task')
 
 
 #this is the task itself    
-async def me_coro(log):
+async def clock_coro(log):
     log.info('starting...')
     # TODO: setup the rtc from some source, below is an e.g from pycom, needs a network connect, how?)
     rtc = machine.RTC()
