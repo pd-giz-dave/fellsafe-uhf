@@ -81,4 +81,4 @@ The only other equipment required to run this system is any phone, tablet, lapto
 
    - initially use a crude vero/matrix board layout
 
-  ![Hardware PCB layouts](/hardware-pcb.drawio.png)
+  ![Hardware PCB layouts](/hardware-pcb.drawio.svg)
