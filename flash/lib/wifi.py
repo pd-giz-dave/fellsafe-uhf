@@ -1,0 +1,60 @@
+""" history
+    2021-01-30 DCN: created
+    2021-02-24 DCN: Add simple DNS server
+    2021-03-25 DCN: Use PyCom built-in MDNS server not SlimDNS
+                    Start a telnet and FTP server too
+    """
+
+""" description
+    Turn on WiFi AP and mDNS and Telnet and FTP servers for the board
+    """
+
+import ulogging as logging
+from network import WLAN
+from network import MDNS
+from network import Server
+
+log = None
+
+def ap(domain,boardname,*,http=80,telnet=23,ftp=21,debug=False):
+    """ start a WiFi AP with ssid of domain-boardname.local on given port
+        and an mDNS server also for domain-boardname.local
+        and a telnet server, credentials are user=domain,pwd=board.name
+        and an FTP server
+        returns the IP of the AP as a string
+        """
+    global log
+    if debug:
+        log = logging.getLogger(__name__)
+    server = Server()
+    try:
+        server.deinit()
+    except:
+        pass
+    server.init(login=(domain,boardname),timeout=600)
+    dom  = domain+'-'+boardname
+    name = dom+'.local'
+    wlan = WLAN(mode=WLAN.AP,ssid=name,antenna=WLAN.EXT_ANT,channel=1)
+    ip   = wlan.ifconfig(id=1)[0]
+    if log is not None:
+        log.info('ap: started as {} at IP {}'.format(name,ip))
+    set_host(dom,boardname,log)
+    add_TCP_service('_http',http,log)
+    add_TCP_service('_telnetd',telnet,log)
+    add_TCP_service('_ftp',ftp,log)
+    return ip
+
+def set_host(hostname,boardname,log=None):
+    try:
+        MDNS.deinit()
+    except:
+        pass
+    MDNS.init()
+    MDNS.set_name(hostname=hostname,instance_name=boardname)
+    if log is not None:
+        log.info('set_host: started mDNS for host={}, board={}'.format(hostname,boardname))
+
+def add_TCP_service(service,port,log=None):
+    MDNS.add_service(service,MDNS.PROTO_TCP,port)
+    if log is not None:
+        log.info('add_TCP_service: {} on port {}'.format(service,port))

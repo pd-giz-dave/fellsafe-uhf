@@ -1,6 +1,7 @@
 
 """ history
     2021-02-24 DCN: Get IP from the WLAN, not hard wired
+    2021-03-25 DCN: Split WiFi setup into a separate function (so main.py can call it)
     """
 """ description
 
@@ -8,10 +9,19 @@
     ========
     This is the main Fellsafe app that is accessable through any modern web browser.
     That browser connects to Fellsafe via a WiFi access point (AP).
-    The default SSID is fellsafe-<station> where <station> is the name of the station.
+    The default SSID is fellsafe-<station>.local where <station> is the name of the station.
     That name is set in the board module in the root folder of the device.
     All stations are identical feature-wise, their names are by convention the name
     of some programming language where that name is a single word - e.g. python, java.
+    The board can also be accessed via telnet or FTP (but not both at once).
+    The credentials for both are user=fellsafe and pwd=<station>.
+    The telnet connection gives you access to the Micropython repl. When Fellsafe is
+    running this will echo debug information. Pressing Ctrl-C will interupt it and drop
+    you into the bare repl. To re-start Fellsafe from there do this:
+        import machine
+        machine.reset()
+    this re-boots the controller. If the board is in debug mode the fellsafe app does
+    not auto start. To start it, connect to the repl (via Wifi or USB) and type fellsafe.start()
 
     PAGES
     =====
@@ -100,8 +110,17 @@ FOLDERS = [('pages','page', MASTER_LAYOUT),
            ('tasks','task', None         ),
           ]
 
-# this is called from main.py on boot-up
+prepared = False # set True when we have started the WiFi AP
+
+def prepare():
+    # this is auto called from main.py on boot-up when debug is set, it starts the WiFi AP
+    import wifi
+    global HOST_IP, prepared
+    HOST_IP = wifi.ap('fellsafe',board.name,http=HOST_PORT,debug=DEBUG_LEVEL>0) # turn on WiFi as a Fellsafe AP (also starts mDNS and Telnet servers)
+    prepared = True
+
 def start():
+    # this is auto called from main.py on boot-up when debug is not set
     logging.basicConfig(level=LOGGING_LEVEL)   # setup logging
     log = logging.getLogger(__name__)
     log.debug('logging enabled at level {}'.format(LOGGING_LEVEL))
@@ -112,12 +131,11 @@ def start():
     import sys
     import uasyncio as asyncio
     import picoweb
-    import wifi
+
+    if not prepared:
+        prepare()                              # turn in WiFi AP
 
     loop = asyncio.get_event_loop()            # instantiate the async scheduler loop ASAP
-
-    global HOST_IP
-    HOST_IP = wifi.ap('fellsafe',loop,DEBUG_LEVEL>0)  # turn on WiFi as a Fellsafe AP (also starts an mDNS server)
 
     # start the web app early so we can add routes and compile templates before we start
     app = picoweb.WebApp(__name__,None,True,os.getcwd()+'/'+__path__)
