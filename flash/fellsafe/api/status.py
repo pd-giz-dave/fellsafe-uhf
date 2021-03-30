@@ -1,5 +1,6 @@
 """ history
-    30/01/21 DCN: Created stub
+    2021-01-30 DCN: Created stub
+    2021-03-30 DCN: Add battery volts feedback
     """
 """ description
     api end point to report the board status
@@ -9,6 +10,7 @@ import picoweb
 import board
 import utime
 import gc
+import state
 import micropython as mpy
 
 app = None
@@ -36,6 +38,8 @@ def handler(req,resp):
               'memory': {'alloc':    gc.mem_alloc(),
                          'free':     gc.mem_free(),
                          'stack':    mpy.stack_use(),
+                        },
+              'battery':{'volts':    state.get('status','battery'),
                         },
              }
     yield from picoweb.jsonify(resp,status)
