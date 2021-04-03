@@ -24,7 +24,7 @@ def set_debug(val):
         # import late so no dependency unless caller asks for it
         import ulogging as logging
         log = logging.getLogger("waitq")
-        log.debug('logging enabled')
+        log.info('logging enabled')
 
 class WaitQ:
     def __init__(self,q_len):

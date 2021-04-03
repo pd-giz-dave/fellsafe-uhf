@@ -3,6 +3,7 @@
     2021-02-24 DCN: Add simple DNS server
     2021-03-25 DCN: Use PyCom built-in MDNS server not SlimDNS
                     Start a telnet and FTP server too
+    2021-03-31 DCN: Use internal WiFi antenna
     """
 
 """ description
@@ -13,6 +14,8 @@ import ulogging as logging
 from network import WLAN
 from network import MDNS
 from network import Server
+
+_antenna = WLAN.INT_ANT
 
 log = None
 
@@ -34,7 +37,7 @@ def ap(domain,boardname,*,http=80,telnet=23,ftp=21,debug=False):
     server.init(login=(domain,boardname),timeout=600)
     dom  = domain+'-'+boardname
     name = dom+'.local'
-    wlan = WLAN(mode=WLAN.AP,ssid=name,antenna=WLAN.EXT_ANT,channel=1)
+    wlan = WLAN(mode=WLAN.AP,ssid=name,antenna=_antenna,channel=1)
     ip   = wlan.ifconfig(id=1)[0]
     if log is not None:
         log.info('ap: started as {} at IP {}'.format(name,ip))

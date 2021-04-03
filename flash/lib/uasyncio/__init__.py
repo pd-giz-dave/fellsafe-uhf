@@ -23,7 +23,7 @@ def set_debug(val):
     if val:
         import ulogging as logging
         log = logging.getLogger("uasyncio")
-        log.debug('logging enabled')
+        log.info('logging enabled')
         uasyncio.core.set_debug(val)
 
 

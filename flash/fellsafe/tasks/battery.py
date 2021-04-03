@@ -10,11 +10,12 @@
 import uasyncio as asyncio
 import state
 import machine
-from micropython import const
 
-_ratio      = const(6.8/106.8)
-_adc        = const('P15')
-_sleep_time = const(60)
+_r1 = 100 * 1000                         # voltage divider resister 1 value in ohms (see hardware diagram)
+_r2 = 6.8 * 1000                         # voltage divider resister 2 value in ohms (see hardware diagram)
+_ratio      = (_r1+_r2)/_r2              # our voltage divider reduction ratio
+_adc_pin    = 'P15'                      # which pin its on
+_sleep_time = 60                         # seconds to wait between voltage raadings
 
 #auto called at start-up
 def task(_,loop,log,_2):
@@ -22,13 +23,15 @@ def task(_,loop,log,_2):
     log.info('created task')
 
 
-#this is the task itself, it just reads the volts on a regular basis
+# this is the task itself, it just reads the volts on a regular basis
+# the reading is stored in "status.battery" and can be read via state.get('status','battery')
 async def battery_coro(log):
     log.info('starting...')
     adc  = machine.ADC()
-    apin = adc.channel(pin=_adc)
+    batt = adc.channel(pin=_adc_pin)
     while True:
-        volts = apin() * _ratio
+        volts = batt.voltage() * _ratio / 1000 #convert from millivolts to volts
+        log.info('battery volts: {}'.format(volts))
         state.set('status','battery',volts)
         await asyncio.sleep(_sleep_time)
     log.info('...stopping')

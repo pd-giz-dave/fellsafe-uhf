@@ -111,19 +111,29 @@ FOLDERS = [('pages','page', MASTER_LAYOUT),
           ]
 
 prepared = False # set True when we have started the WiFi AP
+log      = None
 
 def prepare():
     # this is auto called from main.py on boot-up when debug is set, it starts the WiFi AP
+    import state
     import wifi
-    global HOST_IP, prepared
+    global HOST_IP, prepared, log
+
+    logging.basicConfig(level=LOGGING_LEVEL)   # setup logging
+    log = logging.getLogger(__name__)
+    log.info('logging enabled at level {}'.format(LOGGING_LEVEL))
+    log.info('preparing')
+
+    state.set_debug()
+    state.clean(volatile=True,subscribers=True)
+
     HOST_IP = wifi.ap('fellsafe',board.name,http=HOST_PORT,debug=DEBUG_LEVEL>0) # turn on WiFi as a Fellsafe AP (also starts mDNS and Telnet servers)
     prepared = True
 
 def start():
     # this is auto called from main.py on boot-up when debug is not set
-    logging.basicConfig(level=LOGGING_LEVEL)   # setup logging
-    log = logging.getLogger(__name__)
-    log.debug('logging enabled at level {}'.format(LOGGING_LEVEL))
+    if not prepared:
+        prepare()                              # turn on WiFi AP and logging
     log.info('starting...')
 
     # these imports take a while
@@ -131,9 +141,6 @@ def start():
     import sys
     import uasyncio as asyncio
     import picoweb
-
-    if not prepared:
-        prepare()                              # turn in WiFi AP
 
     loop = asyncio.get_event_loop()            # instantiate the async scheduler loop ASAP
 

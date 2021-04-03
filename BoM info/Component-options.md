@@ -29,11 +29,25 @@ However, LTE-M and NB-IoT coverage in the UK is weak/non-existant outside the So
 
 # m5stack
 This is a system that is easy to plug together, so would be simpler for DIY configuration. Suitable modules are:
-- GPS $28.50
-- NB-IoT $29.90
-- LoRaWAN $21.95
-- Basic Core, ESP32 Arduino compatible, $27.95 (includes WiFi, Bluetooth, RTC)
+- GPS $28.50 with antenna
+- 2G mobile $10.50 (SIM800L)
+- LoRaWAN $21.95 868MHz with antenna, $11.50 433Mhz no antenna (UK uses 863-870 or 433Mhz)
+- Basic Core, ESP32 Arduino compatible, $34.90 (includes WiFi, Bluetooth, RTC, speaker, microphone, 2" touch screen, battery)
 - Proto module, to do RS232 I/F to UHF reader, power regulation, $2.95
-- or COMMU RS484 module, $11.39
+- or COMMU RS485 module, $11.39
 
 More expensive and the ESP32 has limited capability (its whats in the FiPy)
+
+# MakerHawk
+They do a Lopy equivalent for $25 including a Lora antenna. Their quoted max range is only 3km. ESP32 Lora module. This also has 1" 128*64 OLED display!
+They also do a GPS module for $13 including an active GPS antenna.
+
+# Seamuing
+They do a Lora+GPS module including LoRa antenna for £29 - but its only got 128Kb Flash and 16Kb SRAM and no WiFi
+
+# Others
+LILYGO® TTGO T-Call V1.3 V1.4 ESP32 Wireless Module GPRS Antenna SIM Card SIM800L Board - £9 from Banggood - ESP32 + SIM800L inc antenna
+
+LILYGO TTGO LORA32 868Mhz ESP32 LoRa OLED 0.96 Inch Blue Display bluetooth WIFI ESP-32  - £10 from Banggood - ESP32 + Lora inc antenna
+
+GT-U7 Car GPS Module Navigation Satellite Positioning Geekcreit for Arduino - £8 from Banggood

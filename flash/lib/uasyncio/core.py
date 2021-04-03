@@ -27,7 +27,7 @@ def set_debug(val):
         import ulogging as logging
         log = logging.getLogger("uasyncio.core")
         log.setLevel(val)
-        log.debug('logging enabled')
+        log.info('logging enabled')
         waitq.set_debug(val)
 
 

@@ -2,11 +2,18 @@
     2021-01-30 DCN: created
     2021-03-25 DCN: Don't import fipy_on
                     Always start the WiFi AP
+    2021-03-31 DCN: Turn off Pycom services
     """
 """ description
     Main start-up.
     It can be disabled by setting board.debug=true
     """
+
+import pycom
+
+pycom.pybytes_on_boot(False)             # we're not using Pybytes
+pycom.smart_config_on_boot(False)        # ..so we don't want this either
+pycom.wifi_on_boot(False)                # ....nor this as we setup our own AP
 
 try:
     print('Loading board...')
