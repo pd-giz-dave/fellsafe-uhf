@@ -35,7 +35,7 @@ import config
 import machine
 import sys
 import ujson as json
-import uos as os
+import os
 
 PAGE_LAYOUT = None
 REPL_LAYOUT = '_repl_layout.html'

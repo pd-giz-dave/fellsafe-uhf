@@ -25,7 +25,7 @@
 import config
 
 import ujson as json
-import uos as os
+import os
 import uerrno as errno
 import ure as re
 

@@ -7,7 +7,7 @@
     api end point to report the board status
     """
 
-import utime as time
+import time
 import gc
 import micropython as mpy
 import sys

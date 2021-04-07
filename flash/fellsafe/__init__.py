@@ -143,7 +143,7 @@ def start():
     log.info('starting...')
     
     # these imports take a while
-    import uos as os
+    import os
     import sys
     import ure as re
     import uasyncio as asyncio

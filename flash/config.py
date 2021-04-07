@@ -48,9 +48,9 @@ def root():
     # otherwise its our parent folder
     # in both cases we assume we started in the 'flash' folder
     # so we just get the cwd and return whatever is in front of that
-    import uos as os
+    import os
+    import ure as re
     try:
-        import ure as re
         path = re.match('^(.*)/flash.*$',os.getcwd()).group(1)
     except Exception as e:
         raise e
