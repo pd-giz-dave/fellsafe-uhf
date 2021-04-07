@@ -12,7 +12,7 @@
 
 import ucollections
 import utimeq
-import time
+import utime as time
 
 MAX_WAITQ_TIME = 48 * 60 * 60 * 1000     # max time wait Q can deal with without creating rollover issues (48 hours in milliseconds)
 

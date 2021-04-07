@@ -48,9 +48,9 @@ def root():
     # otherwise its our parent folder
     # in both cases we assume we started in the 'flash' folder
     # so we just get the cwd and return whatever is in front of that
-    import os
+    import uos as os
     try:
-        import re
+        import ure as re
         path = re.match('^(.*)/flash.*$',os.getcwd()).group(1)
     except Exception as e:
         raise e
@@ -126,7 +126,7 @@ def _update_board(key,value):
     # this function is written for simplicity and not performnace, the assumption
     # is that board.py is small and not updated very often
     # NB: any end-of-line comments in the file on the key line will be lost
-    import re
+    import ure as re
     # update memory
     setattr(board,key,value)
     # update the file

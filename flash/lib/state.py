@@ -24,10 +24,10 @@
 
 import config
 
-import json
-import os
-import errno
-import re
+import ujson as json
+import uos as os
+import uerrno as errno
+import ure as re
 
 _root  = config.root()+'flash/store'     # where in the file system we store our persistent state
 

@@ -10,7 +10,7 @@
     See uasyncio documentation
     """
 
-import time
+import utime as time
 import gc
 import waitq
 

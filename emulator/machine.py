@@ -104,7 +104,7 @@ class RTC:
         if not self.in_sync:
             # not sync'd yet, so return the epoch (Unix version)
             return (1970,1,1,0,0,0,0,None)
-        import time
+        import utime as time
         dt = time.gmtime()
         self.datetime = (dt.tm_year, dt.tm_month, dt.tm_day, dt.tm_hour, dt.tm_minute, dt.tm_second, 0, None)
         return self.datetime

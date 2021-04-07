@@ -90,7 +90,7 @@ class Compiler:
             if tokens[0][0] == "{":
                 # we've got {{name}}
                 name     = tokens[0][2:-2]
-                import os
+                import uos as os
                 # so that the compiled .py file will run unchanged under Python or Micropython
                 # we make the template name relative to the current working directory, the
                 # assumption is that the current working directory is always in sys.path so

@@ -11,7 +11,7 @@
     """
 
 import sys
-import time
+import utime as time
 
 CRITICAL = 50
 ERROR    = 40

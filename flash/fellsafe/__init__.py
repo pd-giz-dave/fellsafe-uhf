@@ -143,9 +143,9 @@ def start():
     log.info('starting...')
     
     # these imports take a while
-    import os
+    import uos as os
     import sys
-    import re
+    import ure as re
     import uasyncio as asyncio
     import picoweb
     

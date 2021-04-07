@@ -30,12 +30,12 @@
     """
 
 import picoweb
-import re
+import ure as re
 import config
 import machine
 import sys
-import json
-import os
+import ujson as json
+import uos as os
 
 PAGE_LAYOUT = None
 REPL_LAYOUT = '_repl_layout.html'

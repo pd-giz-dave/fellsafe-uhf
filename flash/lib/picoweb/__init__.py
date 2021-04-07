@@ -17,8 +17,8 @@
     SPDX-License-Identifier: MIT
     """
 
-import re
-import errno
+import ure as re
+import uerrno as errno
 import uasyncio as asyncio
 
 from .utils import parse_qs
@@ -48,7 +48,7 @@ def sendstream(writer, f):
 
 
 def jsonify(writer, dict):
-    import json
+    import ujson as json
     yield from start_response(writer, "application/json")
     yield from writer.awrite(json.dumps(dict))
 

@@ -7,7 +7,7 @@
     """
 
 import network
-import time
+import utime as time
 from machine import RTC
 
 print('Enter Farthings password:')

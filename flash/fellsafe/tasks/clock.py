@@ -9,7 +9,7 @@
     """
 
 import uasyncio as asyncio
-import time
+import utime as time
 import machine
 
 UPDATE_INTERVAL = 1 * 60 * 60            # how often to re-sync in seconds (hourly)
