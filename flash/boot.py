@@ -1,1 +1,1 @@
-#do nothing
+# boot.py -- run on boot-up

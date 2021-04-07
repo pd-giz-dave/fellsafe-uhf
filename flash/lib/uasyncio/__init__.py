@@ -8,10 +8,10 @@
     """
 
 
-import uerrno
+import uerrno as errno
 import uselect as select
 import usocket as _socket
-from uasyncio.core import *
+from .core import *
 
 
 DEBUG = 0
@@ -71,7 +71,7 @@ class PollEventLoop(EventLoop):
             # and if that succeeds, yield IOWrite may never be called
             # for that socket, and it will never be added to poller. So,
             # ignore such error.
-            if e.args[0] != uerrno.ENOENT:
+            if e.args[0] != errno.ENOENT:
                 raise
 
     def wait(self, delay):
@@ -223,7 +223,7 @@ def open_connection(host, port, ssl=False):
     try:
         s.connect(ai[-1])
     except OSError as e:
-        if e.args[0] != uerrno.EINPROGRESS:
+        if e.args[0] != errno.EINPROGRESS:
             raise
     if DEBUG and __debug__:
         log.debug("open_connection: After connect")

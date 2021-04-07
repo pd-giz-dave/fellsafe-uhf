@@ -2,31 +2,24 @@
     2021-01-30 DCN: created
     2021-03-25 DCN: Don't import fipy_on
                     Always start the WiFi AP
-    2021-03-31 DCN: Turn off Pycom services
+    2021-04-04 DCN: Use config not board
     """
 """ description
     Main start-up.
-    It can be disabled by setting board.debug=true
+    It can be disabled by setting config.debug(True)
     """
 
-import pycom
-
-pycom.pybytes_on_boot(False)             # we're not using Pybytes
-pycom.smart_config_on_boot(False)        # ..so we don't want this either
-pycom.wifi_on_boot(False)                # ....nor this as we setup our own AP
-
 try:
-    print('Loading board...')
-    import board
-    if board.debug:
+    import config
+    if config.debug():
         print('Loading fellsafe...')
-    import fellsafe
-    if board.debug:
+        import fellsafe
         fellsafe.prepare() # always do this so we can access the board via WiFi
-        print('Skipping fellsafe start.\nType "fellsafe.start()" to start it.\nSet "board.debug=False" to auto start it.')
+        print('Debug is set, so skipping fellsafe start.\nTo start it, type:\n    import fellsafe\n    fellsafe.start()\nTo auto start it next time, type:\n    import config\n    config.debug(False)')
     else:
+        import fellsafe
         fellsafe.start()
-except Exception as e:
+except:
     #if we get here it means one of our modules either does not exist or threw an exception
     import sys
-    sys.print_exception(e)
+    print(sys.exc_info()[1])

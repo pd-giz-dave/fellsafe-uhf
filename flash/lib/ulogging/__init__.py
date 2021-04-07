@@ -1,13 +1,17 @@
 """ history
     2021-01-30 DCN: created by copying github master from https://github.com/pfalcon/pycopy-lib/tree/master/ulogging
     2021-02-01 DCN: Added elapsed time since start on front of all log messages
+    2021-04-04 DCN: Make compatible with python
+    2021-04-05 DCN: Allow for self.name being None in log prefix
+                    use python.time module not naked time
+                    don't use sys.print_exception (micropython specific)
     """
 """ description
     See ulogging documentation
     """
 
 import sys
-import utime as time
+import time
 
 CRITICAL = 50
 ERROR    = 40
@@ -49,8 +53,8 @@ class Logger:
 
     def log(self, level, msg, *args):
         if level >= (self.level or _level):
-            now = (time.ticks_diff(time.ticks_ms(),_tick_one) / 1000)
-            _stream.write("{:_<8}:{:_<10}:{:09.3f}:".format(self._level_str(level),self.name,now)) #30/01/21 DCN: Added time
+            now = time.ticks_diff(time.ticks_ms(),_tick_one) / 1000
+            _stream.write('{:_<8}:{:_<10}:{:09.3f}:'.format(self._level_str(level),self.name or 'None',now)) #30/01/21 DCN: Added time
             if not args:
                 print(msg, file=_stream)
             else:
@@ -73,10 +77,10 @@ class Logger:
 
     def exc(self, e, msg, *args):
         self.log(ERROR, msg, *args)
-        sys.print_exception(e, _stream)
+        self.log(ERROR,'Exception: {}({})'.format(e.__class__.__name__,e.args))
 
     def exception(self, msg, *args):
-        self.exc(sys.exc_info()[1], msg, *args)
+        self.exc(sys.exc_info()[0], msg, *args)
 
 
 _level = INFO

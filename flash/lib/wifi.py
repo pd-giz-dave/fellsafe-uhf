@@ -17,7 +17,7 @@ from network import Server
 
 _antenna = WLAN.INT_ANT
 
-log = None
+_log = None
 
 def ap(domain,boardname,*,http=80,telnet=23,ftp=21,debug=False):
     """ start a WiFi AP with ssid of domain-boardname.local on given port
@@ -26,9 +26,9 @@ def ap(domain,boardname,*,http=80,telnet=23,ftp=21,debug=False):
         and an FTP server
         returns the IP of the AP as a string
         """
-    global log
+    global _log
     if debug:
-        log = logging.getLogger(__name__)
+        _log = logging.getLogger(__name__)
     server = Server()
     try:
         server.deinit()
@@ -39,25 +39,25 @@ def ap(domain,boardname,*,http=80,telnet=23,ftp=21,debug=False):
     name = dom+'.local'
     wlan = WLAN(mode=WLAN.AP,ssid=name,antenna=_antenna,channel=1)
     ip   = wlan.ifconfig(id=1)[0]
-    if log is not None:
-        log.info('ap: started as {} at IP {}'.format(name,ip))
-    set_host(dom,boardname,log)
-    add_TCP_service('_http',http,log)
-    add_TCP_service('_telnetd',telnet,log)
-    add_TCP_service('_ftp',ftp,log)
+    if _log is not None:
+        _log.info('ap: started as {} at IP {}'.format(name,ip))
+    _set_host(dom,boardname)
+    _add_TCP_service('_http',http)
+    _add_TCP_service('_telnetd',telnet)
+    _add_TCP_service('_ftp',ftp)
     return ip
 
-def set_host(hostname,boardname,log=None):
+def _set_host(hostname,boardname):
     try:
         MDNS.deinit()
     except:
         pass
     MDNS.init()
     MDNS.set_name(hostname=hostname,instance_name=boardname)
-    if log is not None:
-        log.info('set_host: started mDNS for host={}, board={}'.format(hostname,boardname))
+    if _log is not None:
+        _log.info('set_host: started mDNS for host={}, board={}'.format(hostname,boardname))
 
-def add_TCP_service(service,port,log=None):
+def _add_TCP_service(service,port):
     MDNS.add_service(service,MDNS.PROTO_TCP,port)
-    if log is not None:
-        log.info('add_TCP_service: {} on port {}'.format(service,port))
+    if _log is not None:
+        _log.info('add_TCP_service: {} on port {}'.format(service,port))

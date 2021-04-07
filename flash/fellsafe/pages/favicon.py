@@ -7,7 +7,7 @@
     """
 
 import picoweb
-import ure as re
+import re
 
 app = None
 log = None

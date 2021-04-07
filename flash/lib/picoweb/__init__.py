@@ -9,6 +9,7 @@
                     revert _load_template to using utemplate.source
                     remove render_str
                     pass template_root into WebApp class (to override hard-wired 'templates')
+    2021-04-06 DCN: Import json not ujson (so works under Python)
     """
 """ description
     Picoweb web pico-framework for Pycopy, https://github.com/pfalcon/pycopy
@@ -16,8 +17,8 @@
     SPDX-License-Identifier: MIT
     """
 
-import ure as re
-import uerrno
+import re
+import errno
 import uasyncio as asyncio
 
 from .utils import parse_qs
@@ -47,9 +48,9 @@ def sendstream(writer, f):
 
 
 def jsonify(writer, dict):
-    import ujson
+    import json
     yield from start_response(writer, "application/json")
-    yield from writer.awrite(ujson.dumps(dict))
+    yield from writer.awrite(json.dumps(dict))
 
 def start_response(writer, content_type="text/html; charset=utf-8", status="200", headers=None):
     yield from writer.awrite("HTTP/1.0 %s NA\r\n" % status)
@@ -237,7 +238,7 @@ class WebApp:
         # your webapp will terminate.
         # This method is a coroutine.
         return
-        yield
+        yield                  # not-reachable: only here to turn function into a coroutine
 
     def mount(self, url, app):
         "Mount a sub-app at the url of current app."
@@ -270,7 +271,7 @@ class WebApp:
             import utemplate.source
             if self.debug >= 0:
                 utemplate.source.set_debug(self.debug)
-                self.log.info('Loading template {} via {}'.format(tmpl_name,self.pkg))
+                self.log.info('Loading template {} via {} from root {}'.format(tmpl_name,self.pkg,self.template_root))
             self.template_loader = utemplate.source.Loader(self.pkg, self.template_root)
         return self.template_loader.load(tmpl_name)
 
@@ -297,7 +298,7 @@ class WebApp:
                 yield from start_response(writer, content_type, "200", headers)
                 yield from sendstream(writer, f)
         except OSError as e:
-            if e.args[0] == uerrno.ENOENT:
+            if e.args[0] == errno.ENOENT:
                 if self.debug >= 0:
                     self.log.debug('file {} not found'.format(self.document_root+'/'+fname))
                 yield from http_error(writer, "404")

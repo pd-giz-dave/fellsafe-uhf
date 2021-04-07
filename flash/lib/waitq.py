@@ -1,5 +1,6 @@
 """ History
     2021-02-01 DCN: Created for use by uasyncio.core
+    2021-04-05 DCN: Add deque wrapper
     """
 """ Description
     A wrapper around utimeq.utimeq that copes with time roll-over.
@@ -9,8 +10,9 @@
     (i.e. our relative time goes backwards) and re-adjusts everything.
     """
 
+import ucollections
 import utimeq
-import utime as time
+import time
 
 MAX_WAITQ_TIME = 48 * 60 * 60 * 1000     # max time wait Q can deal with without creating rollover issues (48 hours in milliseconds)
 
@@ -25,6 +27,10 @@ def set_debug(val):
         import ulogging as logging
         log = logging.getLogger("waitq")
         log.info('logging enabled')
+
+def deque(iter,maxlen,flags):
+    # just a wrapper around ucollections so uasyncio does not need to know about ucollections
+    return ucollections.deque(iter,maxlen,flags)
 
 class WaitQ:
     def __init__(self,q_len):

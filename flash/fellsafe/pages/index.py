@@ -1,12 +1,13 @@
 """ history
     2021-02-01 DCN: created
     2021-02-03 DCN: add layout param to page()
+    2021-04-05 DCN: Use config not board
     """
 """ description
     the landing page for the station website
     """
 
-import board
+import config
 import picoweb
 
 APP_LAYOUT = None
@@ -25,4 +26,4 @@ def page(app_in,_,log_in,layout):
 
 def index(req, resp):
     yield from picoweb.start_response(resp)
-    yield from app.render_template(resp,APP_LAYOUT,(board.name,'Hello from Fellsafe!',None,None,None))
+    yield from app.render_template(resp,APP_LAYOUT,(config.name(),'Hello from Fellsafe!',None,None,None))

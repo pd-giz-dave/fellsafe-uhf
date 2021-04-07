@@ -55,7 +55,7 @@ The only other equipment required to run this system is any phone, tablet, lapto
  
  This brings the total hardware cost to around £260 per unit.
 
- ![Hardware Config](/hardware-config.drawio.png)
+ ![Hardware Config](/doc/hardware-config.drawio.png)
  
  ## Major software components
  
@@ -64,7 +64,7 @@ The only other equipment required to run this system is any phone, tablet, lapto
   - Glue software, part of this project
   - Web app, the application users of the system interact with, runs in the browser, part of this project
 
-  ![Software Config](/software-config.drawio.png)
+  ![Software Config](/doc/software-config.drawio.png)
   
   ## Road map (this is all vapourware as of 10/11/20)
   
@@ -81,4 +81,4 @@ The only other equipment required to run this system is any phone, tablet, lapto
 
    - initially use a crude vero/matrix board layout
 
-  ![Hardware PCB layouts](/hardware-pcb.drawio.svg)
+  ![Hardware PCB layouts](/doc/hardware-pcb.drawio.svg)

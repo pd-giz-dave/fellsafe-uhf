@@ -2,6 +2,7 @@
     2021-02-01 DCN: created
     2021-03-28 DCN: implement as just a hierarchical dict with set/get accessors
     2021-04-01 DCN: Add _test
+    2021-04-05 DCN: Make compatible with running under the emulator
     """
 """ description
     all system state is accessed through here
@@ -21,12 +22,14 @@
     any set/get to a path that has been previously saved will re-load it
     """
 
-import ujson
-import uos
-import uerrno
-import ure
+import config
 
-_root  = '/flash/store'                  # where in the file system we store our persistent state
+import json
+import os
+import errno
+import re
+
+_root  = config.root()+'flash/store'     # where in the file system we store our persistent state
 
 _store = {}                              # dict for each path which is a dict of k,v pairs for that path
 _dirty = {}                              # True for each path that has changed since the last load/save
@@ -58,9 +61,9 @@ def clean(*,volatile=False,persistent=False,subscribers=False):
         for path in _find_paths():
             purge(path)
         try:
-            uos.rmdir(_root)
+            os.rmdir(_root)
         except OSError as e:
-            if e.args[0] == uerrno.ENOENT:
+            if e.args[0] == errno.ENOENT:
                 # this means it did not exist, so OK
                 pass
             else:
@@ -141,7 +144,7 @@ def load(path):
     latest = _root+'/'+_find_latest(path)# find the latest version to load
     try:
         f = open(latest)                 # will throw an OSError if does not exist
-        _store[path] = ujson.load(f)     # will throw a ValueError if not JSON
+        _store[path] = json.load(f)     # will throw a ValueError if not JSON
         return True                      # tell caller its there
     except Exception as e:
         # this probably means it does not exist in the file system
@@ -169,12 +172,12 @@ def save(path):
     try:
         f = open(tempname,'w')           # revision 0 is transitory so we don't care if we lose it, opening 'w' is OK
     except OSError as e:
-        if e.args[0] == uerrno.ENOENT:
+        if e.args[0] == errno.ENOENT:
             # this probably means the path does not exist - so make it
             try:
-                uos.mkdir(_root)
+                os.mkdir(_root)
             except OSError as e:
-                if e.args[0] == uerrno.EEXIST:
+                if e.args[0] == errno.EEXIST:
                     # dir already exists, that's OK
                     pass
                 else:
@@ -201,7 +204,7 @@ def save(path):
             log.exc(e,'save: (2)cannot access {}'.format(_root))
         return False
     try:
-        f.write(ujson.dumps(_store[path]))
+        f.write(json.dumps(_store[path]))
     except Exception as e:
         # write failed - log it
         if log is not None:
@@ -213,7 +216,7 @@ def save(path):
     nextrev  = int(_find_latest(path).split('.')[-1])+1
     nextname = _root+'/'+path+'.'+str(nextrev)
     try:
-        uos.rename(tempname,nextname) # NB: the first physical revision will be #2
+        os.rename(tempname,nextname) # NB: the first physical revision will be #2
     except Exception as e:
         # rename failed - log it
         if log is not None:
@@ -224,7 +227,7 @@ def save(path):
     if firstname != nextname:
         # there is an earlier revision, dump it
         try:
-            uos.remove(firstname)
+            os.remove(firstname)
         except:
             # don't care
             pass
@@ -250,7 +253,7 @@ def purge(path):
     for rev in _find_revisions(path,find_all=True):
         rev = _root+'/'+rev
         try:
-            uos.remove(rev)
+            os.remove(rev)
             purged += 1
         except Exception as e:
             # oops can't delete file, log it, but otherwise don't care
@@ -281,11 +284,11 @@ def _find_revisions(path,default=None,*,find_all=False):
         """
     revs = []
     try:
-        for rev in uos.listdir(_root):
-            if not find_all and ure.match('^'+path+'\.0+',rev):
+        for rev in os.listdir(_root):
+            if not find_all and re.match('^'+path+'\.0+',rev):
                 # ignore rev 0
                 pass
-            if ure.match('^'+path+'\.[0-9]+',rev):
+            if re.match('^'+path+'\.[0-9]+',rev):
                 revs.append(rev)
     except:
         # this probably means the store has not been created yet, so there are no revisions
@@ -300,8 +303,8 @@ def _find_paths():
         """
     paths = []
     try:
-        for path in uos.listdir(_root):
-            match = ure.match('(.*)\.[0-9]+$',path)
+        for path in os.listdir(_root):
+            match = re.match('(.*)\.[0-9]+$',path)
             if match:
                 path = match.group(1)
                 is_dup = False
@@ -321,7 +324,7 @@ def _test():
         """
 
     set_debug(True)
-    import test
+    import tester
 
     def change_callback(context,path,k,was,now):
         context['path'] = path
@@ -371,7 +374,7 @@ def _test():
         ('clean'                  ,True        ,clean,{'persistent':True,}),
         ('purge-is-empty'         ,0           ,purge,('test',))
     ]
-    failures = test.run(__name__,tests,stop_on_fail=True)
+    failures = tester.run(__name__,tests,stop_on_fail=True)
 
     # tidy up (unless there are failures, then leave the evidence)
     if failures == 0:

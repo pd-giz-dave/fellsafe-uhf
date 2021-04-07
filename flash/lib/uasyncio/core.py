@@ -2,6 +2,7 @@
     2021-01-30 DCN: created
     2021-02-01 DCN: Use waitq module not utimeq (to cope with rollover issues)
     2021-02-02 DCN: Add garbage collection when go idle
+    2021-04-05 DCN: Use waitq.deque not ucollections.deque
     """
 
 """ description
@@ -9,11 +10,9 @@
     See uasyncio documentation
     """
 
-import utime as time
-import ucollections
-import waitq
+import time
 import gc
-import micropython
+import waitq
 
 type_gen = type((lambda: (yield))())  # this is the type of a function that is a generator
 
@@ -42,7 +41,7 @@ class TimeoutError(CancelledError):
 class EventLoop:
 
     def __init__(self, runq_len=16, waitq_len=16):
-        self.runq = ucollections.deque((), runq_len, True)
+        self.runq = waitq.deque((), runq_len, True)
         self.waitq = waitq.WaitQ(waitq_len)
         # Current task being run. Task is a top-level coroutine scheduled
         # in the event loop (sub-coroutines executed transparently by

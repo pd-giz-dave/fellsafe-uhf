@@ -3,6 +3,7 @@
     2021-02-02 DCN: Add logging
                     apply templates path to included templates
     2021-02-03 DCN: Show template name auto generated file was created from
+    2021-04-06 DCN: Make generated __import__ names sys.path relative (so compiled .py files run under Python and Micropython unchanged)
     """
 """ description
     See documentation for utemplate
@@ -89,7 +90,12 @@ class Compiler:
             if tokens[0][0] == "{":
                 # we've got {{name}}
                 name     = tokens[0][2:-2]
-                template = self.loader.compiled_path("").replace("/", ".")                         # get the naked path (with a trailing .)
+                import os
+                # so that the compiled .py file will run unchanged under Python or Micropython
+                # we make the template name relative to the current working directory, the
+                # assumption is that the current working directory is always in sys.path so
+                # an import relative to that will always working
+                template = self.loader.compiled_path("").replace(os.getcwd()+'/','').replace("/", ".") # get the naked cwd relative path (with a trailing .)
                 template = "'"+template+"'+"+name+".replace('.','_')"                              # add our include name suitably transformed
                 self.indent(); self.file_out.write("_ = __import__(%s,None,None,1)\n" % template)  # import it ('1' is upy hack)
                 self.indent(); self.file_out.write("yield from _.render(%s)\n" % args)

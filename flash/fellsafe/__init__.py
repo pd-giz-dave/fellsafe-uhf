@@ -2,6 +2,8 @@
 """ history
     2021-02-24 DCN: Get IP from the WLAN, not hard wired
     2021-03-25 DCN: Split WiFi setup into a separate function (so main.py can call it)
+    2021-04-03 DCN: Check a board name is set
+    2021-04-05 DCN: Use config.port not hardwired 80
     """
 """ description
 
@@ -85,17 +87,18 @@
 
     """
 
-import board
+import config
 import ulogging as logging
 
 HOST_IP   = ''
-HOST_PORT = 80
+HOST_PORT = config.port()
+
 # debug values:
 # -1 disable all logging
 # 0 (False) normal logging: requests and errors
 # 1 (True) debug logging
 # 2 extra debug logging
-if board.debug:
+if config.debug():
     DEBUG_LEVEL   = 2
     LOGGING_LEVEL = logging.DEBUG        # see ulogging module for other options
 else:
@@ -105,7 +108,8 @@ else:
 MASTER_LAYOUT = '_page_layout.html'      # all pages are based on this
 
 # (folder name, function name, parameter) tuples to scan and run
-FOLDERS = [('pages','page', MASTER_LAYOUT),
+FOLDERS = [ # folder,function,parameter
+           ('pages','page', MASTER_LAYOUT),
            ('api'  ,'api' , None         ),
            ('tasks','task', None         ),
           ]
@@ -124,28 +128,33 @@ def prepare():
     log.info('logging enabled at level {}'.format(LOGGING_LEVEL))
     log.info('preparing')
 
-    state.set_debug()
+    state.set_debug(DEBUG_LEVEL)
     state.clean(volatile=True,subscribers=True)
 
-    HOST_IP = wifi.ap('fellsafe',board.name,http=HOST_PORT,debug=DEBUG_LEVEL>0) # turn on WiFi as a Fellsafe AP (also starts mDNS and Telnet servers)
-    prepared = True
+    # don't let this fail due to no station name 'cos we want Wifi setup regardless (hence silent=True)
+    HOST_IP = wifi.ap('fellsafe',config.name(silent=True),http=HOST_PORT,debug=DEBUG_LEVEL>0) # turn on WiFi as a Fellsafe AP (also starts mDNS and Telnet servers)
+    log.info('This is station: {}'.format(config.name()))      # NB: This will fail if the station name is not set, that is expected and desired
+    prepared = True                                            #      so this is not set when no station name, so start does a re-try
 
 def start():
     # this is auto called from main.py on boot-up when debug is not set
     if not prepared:
         prepare()                              # turn on WiFi AP and logging
     log.info('starting...')
-
+    
     # these imports take a while
     import os
     import sys
+    import re
     import uasyncio as asyncio
     import picoweb
-
+    
+    document_root = re.match('^(.*)/.*?.m?py$',__file__).group(1)
+    
     loop = asyncio.get_event_loop()            # instantiate the async scheduler loop ASAP
 
     # start the web app early so we can add routes and compile templates before we start
-    app = picoweb.WebApp(__name__,None,True,os.getcwd()+'/'+__path__)
+    app = picoweb.WebApp(__name__,None,True,document_root)
     app.start(debug=DEBUG_LEVEL,host=HOST_IP,port=HOST_PORT)
 
     # pre-compile our master template
@@ -155,11 +164,11 @@ def start():
     #find and start all our components
     for folder in FOLDERS:
         log.info('scanning {} for {} passing {}'.format(folder[0],folder[1],folder[2]))
-        items = os.listdir(__path__+'/'+folder[0])
+        items = os.listdir(document_root+'/'+folder[0])
         for item in items:
             path = str.split(item,'.')
             if item[0] != '_' and (path[1] == 'py' or path[1] == 'mpy'):
-                module = __path__+'.'+folder[0]+'.'+path[0]
+                module = __name__+'.'+folder[0]+'.'+path[0]
                 log.info('found {}'.format(module))
                 __import__(module)
                 module = sys.modules[module]
