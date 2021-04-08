@@ -14,7 +14,7 @@ import machine
 _r1 = 100 * 1000                         # voltage divider resister 1 value in ohms (see hardware diagram)
 _r2 = 6.8 * 1000                         # voltage divider resister 2 value in ohms (see hardware diagram)
 _ratio      = (_r1+_r2)/_r2              # our voltage divider reduction ratio
-_adc_pin    = 'P15'                      # which pin its on
+_adc_pin    = 'P16'                      # which pin its on
 _sleep_time = 60                         # seconds to wait between voltage raadings
 
 #auto called at start-up

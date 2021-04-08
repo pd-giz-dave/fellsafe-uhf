@@ -39,6 +39,8 @@ class ADC:
     def deinit(self):
         self.enabled = False
     def channel(self,*,pin,attn=0):
+        if pin not in ('P13','P14','P15','P16','P17','P18','P19','P20'):
+            raise OSError('resource not available')
         if not self.enabled:
             self.init()
         return ADCChannel(self,pin,attn)
@@ -101,11 +103,12 @@ class RTC:
         self.backup  = backup_server
         self.in_sync = True
     def now(self):
-        if not self.in_sync:
-            # not sync'd yet, so return the epoch (Unix version)
-            return (1970,1,1,0,0,0,0,None)
         import utime as time
-        dt = time.gmtime()
+        if not self.in_sync:
+            # not sync'd yet, so return the epoch
+            dt = time.gmtime(0)
+        else:
+            dt = time.gmtime()
         self.datetime = (dt.tm_year, dt.tm_month, dt.tm_day, dt.tm_hour, dt.tm_minute, dt.tm_second, 0, None)
         return self.datetime
     def synced(self):
@@ -115,3 +118,5 @@ class RTC:
             self.stored = data
         return self.stored
         
+###############################################################
+
