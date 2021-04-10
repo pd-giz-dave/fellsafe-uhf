@@ -20,6 +20,7 @@ To produce a stand-alone device that can be used for all, or any, of:
  - check point visit confirmation (CP self configures via GPS)
  - finish registration
  - lost/late competitor alerts
+ - resource tracking (marshals and vehicles)
  - automatic results publication
  - self powered for at least 24 hours
  
@@ -30,39 +31,36 @@ In the context of the 2020 Covid-19 pandemic there is scope to use this system w
 ## The technology
 The main component is the use of UHF RFID readers/tags. These are the type of RFID systems typically used for auto entry car parks and road tolls. They have the advantage of very low cost tags (10p each if bought in bulk) and long range reading (3 metres or more) which means competitors do not have to stop at CPs (nor even slow down). As long as they get within range of the reader they'll be recorded. The disadvantage of UHF is the higher cost of the readers (compared with for e.g. NFC, as found in modern smartphones), but if carefully sourced (i.e. China!) the cost is not prohibitive. Another disadvantage is the comparatively high power requirement (you don't get long range without broadcasting a lot of power!), but intelligent power management can mitigate this.
 
-On top of the UHF tag readers is the use of *all* the modern comms capabilities to ensure a connection back to HQ, and/or the internet, can always be achieved. The comms include: Wifi, Bluetooth, GPRS (mobiles) and LoRa (long range low power radio).
+On top of the UHF tag readers is the use of *all* the modern comms capabilities to ensure a connection back to HQ, and/or the internet, can always be achieved. The comms include: Wifi, GPRS (mobiles) and LoRa (long range low power radio).
 
 And finally, to allow the device to self configure from its location, a GPS module so it knows where it is and can behave accordingly.
 
-The glue for all this is a low cost compute module, the Pycom Lopy4 microcontroller. That provides the interface to everything via an embedded web server that can be accessed through any web browser on any device via WiFi.
+The glue for all this is a low cost compute module, e.g. an ESP32 microcontroller. That provides the interface to everything via an embedded web server that can be accessed through any web browser on any device via WiFi.
 
-The only other equipment required to run this system is any phone, tablet, laptop or desktop PC with WiFi. Where the internet is visible, this will also provide limited access to that. In particular, there will be no software download/install required, it all comes embedded in the device. That will auto update itself any time it can see the internet.
+The only other equipment required to run this system is any phone, tablet, laptop or desktop PC with WiFi and a browser. Where the internet is visible, this will also provide limited access to that. In particular, there will be no software download/install required, it all comes embedded in the device. That will auto update itself any time it can see the internet.
 
 ## Typical hardware components and costings
 
  - UHF readers (with circularly polarised antennas so runner orientation does not matter), there are lots on alibaba.com (the Chinese equivalent of Amazon), ranging from $68 (US) upwards, plus shipping/tax, allow £80 per reader (e.g. ACM-812A on alibaba.com)
- - RS232 to TTL converter, connect UHF reader to the Lopy4, about £5 (e.g. SparkFun Transceiver Breakout - MAX3232)
- - Pycom Lopy4, about £35, provides the comms, WiFi and LoRa
- - SIM800L GPRS modem (mobile), about £4, provides the internet link over the mobile network when one is visible
- - PyTrack2 GPS module, about £35, also provides an SD Card interface and a USB interface for software development
- - Battery, 12v 5Ah+, motor-cycle lead-acid (far cheaper than Lithium-Ion), about £10, e.g. pro-elec PEL01436 12v 7Ah from cpc.farnell.com, 65 x 101 x 151 mm, 2.05 kg
+ - ESP32 module with LoRa, about £25 (e.g. Makerhawk - £23), provides the comms, WiFi and LoRa and a USB interface for software development
+ - SIM800L GPRS modem (mobile), about £5, provides the internet link over the mobile network when one is visible
+ - GPS module, about £15 (e.g. Makerhawk - £13)
+ - Battery, 18650 Li-Ion batteries (like used in electric cars), about £15 for 8, need 4 per station, so allow £10 per station
  - Case, a waterproof case to house all the electronics tidily (use an electrical junction box), allow £10
  - Mounting poles and/or tripods, allow £10
- - GPRS/WiFi/Lora/GPS antenna, £20
  - IoT SIM card, 1nce.com £10 for 500MB valid for 10 years (but need to be a company), or ThingsMobile.com (£10 for 100MB, never expires)
- - PCB (later, initially use a breadboard and wires), e.g. pcbgogo.com $5 for 100mm x 100mm x 2 layers, allow £10
- - Other odds and ends, cables, connectors, power regulators, et al, allow £10
+ - PCB (later, initially use a breadboard and wires), e.g. pcbgogo.com $5 for 100mm x 100mm x 2 layers, allow £5
+ - Other odds and ends, cables, connectors, power regulators, level converters, et al, allow £10
  
- This brings the total hardware cost to around £260 per unit.
+ This brings the total hardware cost to around £180 per unit.
 
  ![Hardware Config](/doc/hardware-config.drawio.png)
  
  ## Major software components
  
-  - Pycom libraries for the Lopy4/PyTrack2 hardware
-  - PyPi MicroPython libraries for everything you can think of, and then some!
-  - Glue software, part of this project
-  - Web app, the application users of the system interact with, runs in the browser, part of this project
+  - Libraries for the microcontroller and modules hardware (everything you can think of, and then some!)
+  - Station glue software, part of this project (lives on the microcontroller)
+  - Web app, the application users of the system interact with, runs in the browser, part of this project (lives in the cloud, use Mint language for front-end, Python for back-end?)
 
   ![Software Config](/doc/software-config.drawio.png)
   
