@@ -29,7 +29,7 @@ def set_debug(val):
         log.info('logging enabled')
 
 def deque(iter,maxlen,flags):
-    # just a wrapper around ucollections so uasyncio does not need to know about ucollections
+    """ just a wrapper around ucollections so uasyncio does not need to know about ucollections """
     return ucollections.deque(iter,maxlen,flags)
 
 class WaitQ:
@@ -41,15 +41,17 @@ class WaitQ:
         self.last_time  = self._time()         # our time roll-over detector (see _delay)
                     
     def _make(self,q_len):
-        # a wrapper around utimeq.utimeq
+        """ a wrapper around utimeq.utimeq """
         return utimeq.utimeq(q_len)
 
     def _reset(self):
-        # this is called when we detect that the time has rolled over,
-        # to stop all currently waiting tasks from waiting forever we
-        # pop and re-push them all with a very short delay. We preserve
-        # the order but not the time (we assume running a task early does
-        # not matter, but the order they run in might).
+        """ this is called when we detect that the time has rolled over
+
+            to stop all currently waiting tasks from waiting forever we
+            pop and re-push them all with a very short delay. We preserve
+            the order but not the time (we assume running a task early does
+            not matter, but the order they run in might).
+            """
         oldq       = self.waitq                # note the existing q
         self.waitq = self._make(self.q_len)    # make a new q to copy everything into
         item       = [0,0,0]                   # popped item
@@ -66,8 +68,9 @@ class WaitQ:
             self.log.debug('_reset:re-pushed %s items',item_delay)
         
     def _time(self,t=None):
-        # given a time, normalise it for insertion in our waitq
-        # if no time given use the current time
+        """ given a time, normalise it for insertion in our waitq
+            if no time given use the current time
+            """
         if t is None:
             t = time.ticks_diff(time.ticks_ms(),self.first_time)
         if t > MAX_WAITQ_TIME:
@@ -78,15 +81,16 @@ class WaitQ:
         return int(t)
 
     def _peek(self):
-        # a wrapper around peektime() as it can tell lies
+        """ a wrapper around peektime() as it can tell lies """
         t = self.waitq.peektime()
         if t > MAX_WAITQ_TIME:
             raise RuntimeError('peektime too big at {}, limit is {}'.format(t,MAX_WAITQ_TIME))
         return t
 
     def push(self,delay,callback,args):
-        # push the given item onto our waitq, api same as utimeq.push
-        # NB: Unlike utimeq.push we take a delay and not a time
+        """ push the given item onto our waitq, api same as utimeq.push
+            NB: Unlike utimeq.push we take a delay and not a time
+            """
         wtime = self._time(self._time()+delay)
         if __debug__ and DEBUG:
             log.debug('push:pushing: %s, now: %s', (wtime,callback,args), self._time())
@@ -98,12 +102,13 @@ class WaitQ:
                 raise RuntimeError('pushed {} but peektime is bigger at {}'.format(wtime,t))
 
     def delay(self,q_item = None):
-        # if the next item in the wait q has reached its time return 0
-        # otherwise return how much longer it has to wait
-        # if the wait q is empty -1 is returned
-        # if q_item is given it must be a *list* of 3 items and is updated with
-        # the waitq item if its time has been reached (the item is popped), otherwise
-        # the item is not popped.
+        """ if the next item in the wait q has reached its time return 0
+            otherwise return how much longer it has to wait
+            if the wait q is empty -1 is returned
+            if q_item is given it must be a *list* of 3 items and is updated with
+            the waitq item if its time has been reached (the item is popped), otherwise
+            the item is not popped.
+            """
         try:
             tnow = self._time()
             if tnow < self.last_time:

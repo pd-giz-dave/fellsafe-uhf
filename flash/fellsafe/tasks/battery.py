@@ -17,15 +17,18 @@ _ratio      = (_r1+_r2)/_r2              # our voltage divider reduction ratio
 _adc_pin    = 'P16'                      # which pin its on
 _sleep_time = 60                         # seconds to wait between voltage raadings
 
-#auto called at start-up
 def task(_,loop,log,_2):
+    """ auto called at start-up """
     loop.create_task(battery_coro(log))
     log.info('created task')
 
 
-# this is the task itself, it just reads the volts on a regular basis
-# the reading is stored in "status.battery" and can be read via state.get('status','battery')
 async def battery_coro(log):
+    """ this is the task itself, it just reads the volts on a regular basis
+        the reading is stored in "status.battery" and can be read via state.get('status','battery')
+        NB: The resistors used in the voltage divider chain are only 5%
+            so there could be up to 10% error in the voltage reported here
+        """
     log.info('starting...')
     adc  = machine.ADC()
     batt = adc.channel(pin=_adc_pin)

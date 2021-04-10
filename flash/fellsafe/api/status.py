@@ -19,8 +19,8 @@ import state
 app = None
 log = None
 
-#auto called at start-up, register our route and its handler
 def api(app_in,_,log_in,_2):
+    """ auto called at start-up, register our route and its handler """
     global app,log
     app = app_in
     log = log_in
@@ -28,8 +28,8 @@ def api(app_in,_,log_in,_2):
     log.info('/api/status routed')
 
 
-#generate system status response
 def status_handler(req,resp):
+    """ generate system status response """
     gmt = time.gmtime()
     status = {'platform': {'name': sys.platform
                         },

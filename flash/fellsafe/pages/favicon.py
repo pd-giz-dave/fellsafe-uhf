@@ -12,8 +12,8 @@ import ure as re
 app = None
 log = None
 
-#auto called at start-up, register our route and its handler
 def page(app_in,_,log_in,_2):
+    """ auto called at start-up, register our route and its handler """
     global app,log
     app = app_in
     log = log_in
@@ -22,4 +22,5 @@ def page(app_in,_,log_in,_2):
 
 
 def handler(req,resp):
+    """ send the favicon """
     yield from app.sendfile(resp,'static/favicon.ico')

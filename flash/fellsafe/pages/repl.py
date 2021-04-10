@@ -48,15 +48,15 @@ local_scope  = {}                        # exec locals
 commands     = []                        # command history
 responses    = []                        # response history
 
-# unecode url characters that have been translated into %xx
 def unencode(s):
+    """ unecode url characters that have been translated into %xx """
     arr = s.split("%")
     arr2 = [chr(int(x[:2],16)) + x[2:] for x in arr[1:]]
     return arr[0] + ''.join(arr2)
 
 
-#auto called at start-up, register our routes and their handlers
 def page(app_in,_,log_in,layout):
+    """ auto called at start-up, register our routes and their handlers """
     global PAGE_LAYOUT,app,log
     PAGE_LAYOUT = layout
     app = app_in
@@ -75,9 +75,8 @@ def page(app_in,_,log_in,layout):
     if log is not None: log.info(REPL_LAYOUT + ' compiled')
 
 
-# save the command/response history and send the response
-# everything is jsonified
 def repl_response(resp,command,response):
+    """ save the command/response history and send the response, everything is jsonified """
     global commands,responses
     commands.append(json.dumps(command))
     responses.append(json.dumps(response))
@@ -91,7 +90,7 @@ def repl_response(resp,command,response):
 # NB: all route handlers must be an 'iterable', that means they must yield and not just return
 
 def repl_home(req,resp):
-    # send the controlling page (with its JS and CSS)
+    """ send the controlling page (with its JS and CSS) """
     yield from picoweb.start_response(resp)
     yield from app.render_template(resp,PAGE_LAYOUT,(config.name(),'Fellsafe REPL (enter "_help" to get a command list)',None,REPL_LAYOUT,[commands,responses]))
 
@@ -127,10 +126,11 @@ def repl_log(req,resp):
     level = req.url_match.group(1)       # get the command string, this is URI encoded,
     yield from repl_response(resp,'_log={}'.format(level),'_log=N not implemented')
     
-# called when a repl line is sent from the web page that is not prefixed by '_'
-# if the first char is '=' - evalaute it and show response
-# else execute it
 def repl_command(req,resp):
+    """ called when a repl line is sent from the web page that is not prefixed by '_'
+        if the first char is '=' - evalaute it and show response
+        else execute it
+        """
     global global_scope,local_scope
     command = req.url_match.group(1)     # get the command string, this is URI encoded,
     command = unencode(command)          # so we have to translate %xx to utf-8 characters

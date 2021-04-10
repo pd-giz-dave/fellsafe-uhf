@@ -15,8 +15,8 @@ APP_LAYOUT = None
 app = None
 log = None
 
-#auto called at start-up, register our route and its handler
 def page(app_in,_,log_in,layout):
+    """ auto called at start-up, register our route and its handler """
     global APP_LAYOUT,app,log
     APP_LAYOUT = layout
     app = app_in
@@ -25,5 +25,6 @@ def page(app_in,_,log_in,layout):
     log.info('/ routed')
 
 def index(req, resp):
+    """ show the index page """
     yield from picoweb.start_response(resp)
     yield from app.render_template(resp,APP_LAYOUT,(config.name(),'Hello from Fellsafe!',None,None,None))

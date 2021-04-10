@@ -7,14 +7,14 @@
 
 import uasyncio as asyncio
 
-#auto called at start-up
 def task(_,loop,log,_2):
+    """ auto called at start-up """
     loop.create_task(uhf_coro(log))
     log.info('created task')
 
 
-#this is the task itself    
 async def uhf_coro(log):
+    """ this is the task itself """
     log.info('starting...')
     while True:
         try:

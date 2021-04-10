@@ -35,19 +35,20 @@ def debug(set_to=None):
     return board.debug
 
 def apn(set_to=None):
-    # Used by gateway.py to connect the mobile modem
-    # This is assuming we are using a Things Mobile sim.
+    """ Used to connect to the mobile modem """
     _load_board()
     if set_to is not None:
         _update_board('apn',set_to)
     return board.apn
 
 def root():
-    # work out what our root file system path is
-    # if we're in the microcontroller its '/'
-    # otherwise its our parent folder
-    # in both cases we assume we started in the 'flash' folder
-    # so we just get the cwd and return whatever is in front of that
+    """ work out what our root file system path is
+
+        if we're in the microcontroller its '/'
+        otherwise its our parent folder
+        in both cases we assume we started in the 'flash' folder
+        so we just get the cwd and return whatever is in front of that
+        """
     import os
     import ure as re
     try:
@@ -59,16 +60,18 @@ def root():
     return path
 
 def port():
-    # get the http server port to use
-    # in the microcontroller its the conventional 80
-    # in the emulator its 8080 ('cos there is prob already a server running on 80)
+    """ get the http server port to use
+
+        in the microcontroller its the conventional 80
+        in the emulator its 8080 ('cos there is prob already a server running on 80)
+        """
     if emulated:
         return 8080
     else:
         return 80
 
 def _load_board(forced=False,fail_on_missing=False):
-    # load/create the board module
+    """ load/create the board module """
     global board
     if forced:
         # make it re-load if its already present (so we get a fresh copy)
@@ -113,19 +116,21 @@ debug = True
 
 # Used by gateway.py to connect the mobile modem
 # This is assuming we are using a Things Mobile sim.
-apn = 'pepperWeb'
+apn = 'TM'
 
                 """)
     f.close()
     return _load_board(True,True)
 
 def _update_board(key,value):
-    # set board[key] = value in memory and in the board.py file
-    # board is assumed to have been loaded  via _load_board()
-    # the current directory must not have been changed since board was loaded
-    # this function is written for simplicity and not performnace, the assumption
-    # is that board.py is small and not updated very often
-    # NB: any end-of-line comments in the file on the key line will be lost
+    """ set board[key] = value in memory and in the board.py file
+
+        board is assumed to have been loaded  via _load_board()
+        the current directory must not have been changed since board was loaded
+        this function is written for simplicity and not performnace, the assumption
+        is that board.py is small and not updated very often
+        NB: any end-of-line comments in the file on the key line will be lost
+        """
     import ure as re
     # update memory
     setattr(board,key,value)

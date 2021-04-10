@@ -15,6 +15,6 @@ debug = True
 
 # Used by gateway.py to connect the mobile modem
 # This is assuming we are using a Things Mobile sim.
-apn = 'pepperWeb'
+apn = 'TM'
 
                 
